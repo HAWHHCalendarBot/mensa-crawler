@@ -7,7 +7,7 @@ const run = promisify(exec)
 export async function init(): Promise<void> {
 	const result = existsSync('meals') ?
 		await gitCommand('pull') :
-		await run('git clone git@github.com:HAWHHCalendarBot/mensa-data.git meals')
+		await run('git clone -q --depth 1 git@github.com:HAWHHCalendarBot/mensa-data.git meals')
 
 	console.log('init git', result)
 }
