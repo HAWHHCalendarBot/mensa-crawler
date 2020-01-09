@@ -15,3 +15,8 @@ async function doit(): Promise<void> {
 }
 
 doit()
+
+if (process.env.NODE_ENV === 'production') {
+	// Every 70 minutes
+	setInterval(doit, 1000 * 60 * 70)
+}
