@@ -16,6 +16,7 @@ export async function saveCanteenMealFiles(canteenName: string, meals: readonly 
 			.map(async day => writeJson(
 				`${path}/${day}.json`,
 				groupedByDay[day]
+					.sort((a, b) => `${a.Category}${a.Name}`.localeCompare(`${b.Category}${b.Name}`))
 			))
 	)
 }
