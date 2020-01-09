@@ -26,6 +26,7 @@
 		"!*.test.*"
 	],
 	"dependencies": {
+		"array-filter-unique": "^2.2.0",
 		"array-reduce-group-by": "^1.0.0",
 		"got": "^10.2.1",
 		"json-stable-stringify": "^1.0.1",
