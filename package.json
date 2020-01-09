@@ -28,12 +28,14 @@
 	"dependencies": {
 		"array-reduce-group-by": "^1.0.0",
 		"got": "^10.2.1",
-		"json-stable-stringify": "^1.0.1"
+		"json-stable-stringify": "^1.0.1",
+		"nodegit": "^0.26.3"
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^0.7.0",
 		"@types/json-stable-stringify": "^1.0.32",
 		"@types/node": "^13.1.4",
+		"@types/nodegit": "^0.26.0",
 		"@typescript-eslint/eslint-plugin": "^2.15.0",
 		"@typescript-eslint/parser": "^2.15.0",
 		"ava": "^2.1.0",
