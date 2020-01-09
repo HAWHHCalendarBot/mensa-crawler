@@ -1,0 +1,64 @@
+{
+	"name": "mensa-crawler",
+	"version": "0.0.0",
+	"private": true,
+	"description": "Crawls the canteen data of student canteens in Hamburg",
+	"license": "MIT",
+	"repository": "HAWHHCalendarBot/mensa-crawler",
+	"author": {
+		"name": "EdJoPaTo",
+		"email": "edjopato@gmail.com",
+		"url": "https://edjopato.de"
+	},
+	"engines": {
+		"node": ">=8"
+	},
+	"scripts": {
+		"build": "del dist && tsc",
+		"prepack": "npm run build",
+		"start": "ts-node source/index.ts",
+		"test": "tsc && xo && ava"
+	},
+	"main": "dist/source",
+	"types": "dist/source",
+	"files": [
+		"dist/source",
+		"!*.test.*"
+	],
+	"dependencies": {
+		"array-reduce-group-by": "^1.0.0",
+		"got": "^10.2.1",
+		"json-stable-stringify": "^1.0.1"
+	},
+	"devDependencies": {
+		"@sindresorhus/tsconfig": "^0.7.0",
+		"@types/json-stable-stringify": "^1.0.32",
+		"@types/node": "^13.1.4",
+		"@typescript-eslint/eslint-plugin": "^2.15.0",
+		"@typescript-eslint/parser": "^2.15.0",
+		"ava": "^2.1.0",
+		"del-cli": "^3.0.0",
+		"eslint-config-xo-typescript": "^0.24.1",
+		"ts-node": "^8.5.4",
+		"typescript": "^3.7.4",
+		"xo": "^0.25.3"
+	},
+	"ava": {
+		"babel": false,
+		"compileEnhancements": false
+	},
+	"xo": {
+		"semicolon": false,
+		"extends": "xo-typescript",
+		"extensions": [
+			"ts"
+		],
+		"rules": {
+			"ava/no-ignored-test-files": "off",
+			"@typescript-eslint/semi": [
+				"error",
+				"never"
+			]
+		}
+	}
+}

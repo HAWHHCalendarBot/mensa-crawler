@@ -1,0 +1,9 @@
+.*
+*.md
+**/*.test.*
+dist
+Dockerfile
+node_modules
+test
+
+meals
