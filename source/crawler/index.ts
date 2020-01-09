@@ -17,12 +17,11 @@ export async function loadMealsOfCanteenCurrentlyKnown(canteen: Canteen): Promis
 	const currentYear = today.getFullYear()
 	const currentWeek = weekNumber(today)
 
-	const resultsArr = await Promise.all([
-		loadMealsOfCanteen(canteen, currentYear, currentWeek),
-		loadMealsOfCanteen(canteen, currentYear, currentWeek + 1)
-	])
+	const results = [
+		...(await loadMealsOfCanteen(canteen, currentYear, currentWeek)),
+		...(await loadMealsOfCanteen(canteen, currentYear, currentWeek + 1))
+	]
 
-	const results = resultsArr.flat()
 	return results
 }
 

@@ -1,10 +1,13 @@
+import {Canteen} from './canteen'
 import {loadCanteens, loadMealsOfCanteenCurrentlyKnown} from './crawler'
 import {saveCanteenMealFiles} from './fs'
+import {serialPromise} from './serial-promise'
 
 async function doit(): Promise<void> {
 	const canteens = await loadCanteens()
-	await Promise.all(
-		canteens.map(async canteen => saveCanteenMealFiles(canteen.name, await loadMealsOfCanteenCurrentlyKnown(canteen)))
+	await serialPromise(
+		async (canteen: Canteen) => saveCanteenMealFiles(canteen.name, await loadMealsOfCanteenCurrentlyKnown(canteen)),
+		canteens
 	)
 }
 
