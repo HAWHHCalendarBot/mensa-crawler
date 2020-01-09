@@ -13,9 +13,9 @@ export async function saveCanteenMealFiles(canteenName: string, meals: readonly 
 
 	await Promise.all(
 		Object.keys(groupedByDay)
-			.map(async day => fsPromises.writeFile(
+			.map(async day => writeJson(
 				`${path}/${day}.json`,
-				stringify(groupedByDay[day], {space: '\t'})
+				groupedByDay[day]
 			))
 	)
 }
@@ -35,4 +35,11 @@ function ensureTwoDigits(input: number): string {
 	}
 
 	return String(input)
+}
+
+export async function writeJson(file: string, content: unknown): Promise<void> {
+	await fsPromises.writeFile(
+		file,
+		stringify(content, {space: '\t'}) + '\n'
+	)
 }
