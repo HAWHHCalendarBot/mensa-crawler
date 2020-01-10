@@ -28,7 +28,7 @@ async function gitCommand(command: string): Promise<{stdout: string; stderr: str
 
 async function tryCommit(): Promise<void> {
 	try {
-		await gitCommand('commit -m "update" --no-gpg-sign --author "auto-update <auto-update@3t0.de>"')
+		await gitCommand('commit -m "update" --no-gpg-sign --author "mensa-crawler <hawhh-mensa-crawler@3t0.de>"')
 	} catch (error) {
 		if (error.stdout.includes('nothing to commit')) {
 			// Everything is fine
