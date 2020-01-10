@@ -330,7 +330,7 @@ test('example', t => {
 			Additives: {
 				Ei: 'Ei/-erzeugnisse',
 				Gl: 'Glutenhaltiges Getreide und daraus hergestellte Erzeugnissse',
-				Sl: 'Sellerie/-erzeugnisse'
+				La: 'Milch/-erzeugnisse (einschl. Laktose)'
 			},
 			PriceStudent: 4.95,
 			PriceAttendant: 5.95,
