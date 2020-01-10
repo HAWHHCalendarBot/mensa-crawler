@@ -6,10 +6,7 @@ export interface MealPrices {
 	PriceStudent: PriceInEuro;
 }
 
-export interface Meal extends MealPrices {
-	Name: string;
-	Category: string;
-	Date: string;
+export interface MealContents {
 	Beef: boolean;
 	Fish: boolean;
 	LactoseFree: boolean;
@@ -17,5 +14,11 @@ export interface Meal extends MealPrices {
 	Poultry: boolean;
 	Vegan: boolean;
 	Vegetarian: boolean;
+}
+
+export interface Meal extends MealContents, MealPrices {
+	Name: string;
+	Category: string;
+	Date: string;
 	Additives: Record<string, string>;
 }

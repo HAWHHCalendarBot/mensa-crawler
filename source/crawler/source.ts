@@ -1,5 +1,5 @@
 import {Canteen} from '../canteen'
-import {Meal, MealPrices} from '../meal'
+import {Meal, MealContents, MealPrices} from '../meal'
 
 const SECOND = 1000
 const MINUTE = 60 * SECOND
@@ -70,13 +70,7 @@ export function loadMealsFromSource(content: string): Meal[] {
 				Category: currentCategory,
 				Date: new Date(date).toISOString(),
 				...prices,
-				Beef: boniTexts.some(o => o === 'mit Rind'),
-				Fish: boniTexts.some(o => o === 'mit Fisch'),
-				LactoseFree: boniTexts.some(o => o === 'laktosefrei' || o === 'enthält keine laktosehaltigen Lebensmittel'),
-				Pig: boniTexts.some(o => o === 'mit Schwein'),
-				Poultry: boniTexts.some(o => o === 'mit Geflügel'),
-				Vegan: boniTexts.some(o => o === 'Vegan'),
-				Vegetarian: boniTexts.some(o => o === 'vegetarisch'),
+				...mealContentsFromBoniTexts(boniTexts),
 				Additives: additives
 			})
 
@@ -118,4 +112,16 @@ export function loadMealsFromSource(content: string): Meal[] {
 	}
 
 	return meals
+}
+
+function mealContentsFromBoniTexts(boniTexts: readonly string[]): MealContents {
+	return {
+		Beef: boniTexts.some(o => o === 'mit Rind'),
+		Fish: boniTexts.some(o => o === 'mit Fisch'),
+		LactoseFree: boniTexts.some(o => o === 'laktosefrei' || o === 'enthält keine laktosehaltigen Lebensmittel'),
+		Pig: boniTexts.some(o => o === 'mit Schwein'),
+		Poultry: boniTexts.some(o => o === 'mit Geflügel'),
+		Vegan: boniTexts.some(o => o === 'Vegan'),
+		Vegetarian: boniTexts.some(o => o === 'vegetarisch')
+	}
 }
