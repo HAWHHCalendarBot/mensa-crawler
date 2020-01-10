@@ -5,6 +5,7 @@ import {serialPromise} from './serial-promise'
 import * as git from './git'
 
 async function doit(): Promise<void> {
+	console.time('doit')
 	await git.init()
 	const canteens = await loadCanteens()
 	await serialPromise(
@@ -12,6 +13,7 @@ async function doit(): Promise<void> {
 		canteens
 	)
 	await git.commitAndPush()
+	console.timeEnd('doit')
 }
 
 doit()
