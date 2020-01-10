@@ -9,7 +9,7 @@ export async function init(): Promise<void> {
 		await gitCommand('pull') :
 		await run('git clone -q --depth 1 git@github.com:HAWHHCalendarBot/mensa-data.git meals')
 
-	console.log('init git', result)
+	console.log('git init', result)
 }
 
 export async function commitAndPush(): Promise<void> {
@@ -18,9 +18,7 @@ export async function commitAndPush(): Promise<void> {
 
 	if (process.env.NODE_ENV === 'production') {
 		const result = await gitCommand('push -u')
-
-		console.log(result.stderr)
-		console.log(result.stdout)
+		console.log('git push', result)
 	}
 }
 
@@ -37,7 +35,7 @@ async function tryCommit(): Promise<void> {
 			return
 		}
 
-		console.log('commit error', error.stdout)
+		console.error('git commit error', error.stdout)
 
 		throw error
 	}
