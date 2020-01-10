@@ -1,8 +1,6 @@
 FROM node:12-alpine
 WORKDIR /build
 
-RUN apk --no-cache add krb5-libs
-
 COPY package.json package-lock.json tsconfig.json ./
 RUN npm ci
 
@@ -17,7 +15,7 @@ WORKDIR /app
 VOLUME /root/.ssh
 VOLUME /app/meals
 
-RUN apk --no-cache add krb5-libs git openssh-client
+RUN apk --no-cache add git openssh-client
 
 ENV NODE_ENV=production
 
