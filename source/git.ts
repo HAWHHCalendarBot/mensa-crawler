@@ -19,10 +19,7 @@ export async function commitAndPush(): Promise<void> {
 	if (process.env.NODE_ENV === 'production') {
 		const result = await gitCommand('push -u')
 
-		if (result.stderr && !result.stderr.includes('Everything up-to-date')) {
-			console.error('GIT PUSH ERROR', result.stderr)
-		}
-
+		console.log(result.stderr)
 		console.log(result.stdout)
 	}
 }
