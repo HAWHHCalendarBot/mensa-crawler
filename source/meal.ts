@@ -7,6 +7,7 @@ export interface MealPrices {
 }
 
 export interface MealContents {
+	Alcohol: boolean;
 	Beef: boolean;
 	Fish: boolean;
 	LactoseFree: boolean;

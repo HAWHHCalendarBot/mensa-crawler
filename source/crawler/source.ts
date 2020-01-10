@@ -116,6 +116,7 @@ export function loadMealsFromSource(content: string): Meal[] {
 
 function mealContentsFromBoniTexts(boniTexts: readonly string[]): MealContents {
 	return {
+		Alcohol: boniTexts.some(o => o === 'mit Alkohol'),
 		Beef: boniTexts.some(o => o === 'mit Rind'),
 		Fish: boniTexts.some(o => o === 'mit Fisch'),
 		LactoseFree: boniTexts.some(o => o === 'laktosefrei' || o === 'enthält keine laktosehaltigen Lebensmittel'),
