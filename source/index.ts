@@ -1,19 +1,14 @@
-import {Canteen} from './canteen'
-import {loadCanteens, loadMealsOfCanteenCurrentlyKnown} from './crawler'
-import {saveCanteenMealFiles} from './fs'
-import {serialPromise} from './serial-promise'
 import * as git from './git'
+import {doGraph} from './graph-stuff'
 
 async function doit(): Promise<void> {
 	console.time('doit')
 	await git.init()
-	const canteens = await loadCanteens()
-	await serialPromise(
-		async (canteen: Canteen) => saveCanteenMealFiles(canteen.name, await loadMealsOfCanteenCurrentlyKnown(canteen)),
-		canteens
-	)
-	await git.commitAndPush()
 	console.timeEnd('doit')
+
+	console.time('graph')
+	await doGraph()
+	console.timeEnd('graph')
 }
 
 doit()
