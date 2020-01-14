@@ -5,6 +5,7 @@
 		"test"
 	],
 	"compilerOptions": {
+		"target": "ES2019",
 		"esModuleInterop": true,
 		"declaration": false,
 		"outDir": "dist"
