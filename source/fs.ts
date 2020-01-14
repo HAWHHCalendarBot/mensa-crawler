@@ -38,9 +38,21 @@ function ensureTwoDigits(input: number): string {
 	return String(input)
 }
 
-export async function writeJson(file: string, content: unknown): Promise<void> {
+async function writeJson(file: string, content: unknown): Promise<void> {
 	await fsPromises.writeFile(
 		file,
 		stringify(content, {space: '\t'}) + '\n'
 	)
+}
+
+export async function readMeals(canteen: string): Promise<Meal[]> {
+	const path = `meals/${canteen}`
+	const dir = await fsPromises.readdir(path)
+	const allContents = await Promise.all(
+		dir.map(async o => fsPromises.readFile(`${path}/${o}`, 'utf8'))
+	)
+	const allMeals = allContents
+		.flatMap(o => JSON.parse(o) as Meal[])
+
+	return allMeals
 }
