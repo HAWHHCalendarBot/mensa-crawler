@@ -33,7 +33,7 @@ const DAY_SWITCH = '</td>'
 const NAME_REGEX = /<strong>(.+)<\/strong>/
 const ADDITIVE_REPLACE_REGEX = /<span class=tooltip title=([^>]+)>([^<]+)<\/span>/g
 const PRICE_REGEX = /([\d,]+).€ \/ ([\d,]+).€ \/ ([\d,]+).€/
-const BONUS_REGEX = /<img .+ title=.([^""]+).+\/>/
+const BONUS_REGEX = /<img .+ title=.([^"]+).+\/>/
 /* */
 
 export function loadMealsFromSource(content: string): Meal[] {
