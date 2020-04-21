@@ -6,10 +6,11 @@ const MINUTE = 60 * SECOND
 const HOUR = 60 * MINUTE
 const DAY = 24 * HOUR
 
-function allMatches(regex: RegExp, string: string): RegExpMatchArray[] {
+function allMatches(regex: Readonly<RegExp>, string: string): ReadonlyArray<Readonly<RegExpMatchArray>> {
 	const results: RegExpMatchArray[] = []
+	const localRegex = new RegExp(regex.source, regex.flags)
 	let m: RegExpMatchArray | null
-	while ((m = regex.exec(string))) {
+	while ((m = localRegex.exec(string))) {
 		results.push(m)
 	}
 

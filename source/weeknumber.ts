@@ -3,7 +3,7 @@
 const millisecondsInDay = 86400000 // 1000ms * 60s * 60m * 24h
 const daysInWeek = 7
 
-export function weekNumber(date: Date): number {
+export function weekNumber(date: Readonly<Date>): number {
 	const firstDayOfWeek = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
 
 	// The first week in the ISO definition starts with a week containing thursday.
