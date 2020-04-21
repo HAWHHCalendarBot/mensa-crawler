@@ -1,7 +1,7 @@
 import {promises as fsPromises} from 'fs'
 
+import * as stringify from 'json-stable-stringify'
 import arrayReduceGroupBy from 'array-reduce-group-by'
-import stringify from 'json-stable-stringify'
 
 import {Meal} from './meal'
 
