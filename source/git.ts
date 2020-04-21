@@ -30,12 +30,17 @@ async function tryCommit(): Promise<void> {
 	try {
 		await gitCommand('commit -m "update" --no-gpg-sign --author "mensa-crawler <hawhh-mensa-crawler@3t0.de>"')
 	} catch (error) {
-		if (error.stdout.includes('nothing to commit')) {
-			// Everything is fine
-			return
-		}
+		if ('stdout' in error) {
+			const {stdout} = error
+			if (typeof stdout === 'string') {
+				if (stdout.includes('nothing to commit')) {
+					// Everything is fine
+					return
+				}
 
-		console.error('git commit error', error.stdout)
+				console.error('git commit error', stdout)
+			}
+		}
 
 		throw error
 	}
