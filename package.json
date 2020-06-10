@@ -7,8 +7,8 @@
 	"repository": "HAWHHCalendarBot/mensa-crawler",
 	"author": {
 		"name": "EdJoPaTo",
-		"email": "edjopato@gmail.com",
-		"url": "https://edjopato.de"
+		"email": "calendarbot@hawhh.de",
+		"url": "https://calendarbot.hawhh.de"
 	},
 	"engines": {
 		"node": ">=12"
