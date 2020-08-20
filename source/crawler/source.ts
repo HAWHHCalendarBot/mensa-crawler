@@ -25,7 +25,7 @@ export function loadCanteenFromSource(content: string): Canteen[] {
 	const results: Canteen[] = allMatches(regex, content)
 		.map(o => ({
 			id: Number(o[1]),
-			name: entities.decode(o[2])
+			name: entities.decode(o[2]).replace(/-/g, ' ')
 		}))
 
 	return results
