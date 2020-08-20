@@ -16,6 +16,7 @@ async function doit(): Promise<void> {
 	console.timeEnd('doit')
 }
 
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 doit()
 
 if (process.env.NODE_ENV === 'production') {
