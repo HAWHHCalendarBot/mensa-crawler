@@ -6,7 +6,7 @@ import {weekNumber} from '../weeknumber'
 import {loadCanteenFromSource, loadMealsFromSource} from './source'
 
 export async function loadCanteens(): Promise<Canteen[]> {
-	const response = await request('http://www.studierendenwerk-hamburg.de/studierendenwerk/de/essen/speiseplaene/')
+	const response = await request('https://www.studierendenwerk-hamburg.de/gastronomie/speiseplaene')
 	const canteens = loadCanteenFromSource(response.body)
 	return canteens
 }

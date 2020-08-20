@@ -18,7 +18,7 @@ function allMatches(regex: Readonly<RegExp>, string: string): ReadonlyArray<Read
 }
 
 export function loadCanteenFromSource(content: string): Canteen[] {
-	const regex = /<p>- <a href="[^"]+\/(\d+)"(?: target="_blank")?>([^<]+)</g
+	const regex = /<a href="https?:\/\/speiseplan.studierendenwerk-hamburg.de\/index.php\/de\/cafeteria\/show\/id\/(\d+)" target="_blank">([^<]+)<\/a>/g
 	const results: Canteen[] = allMatches(regex, content)
 		.map(o => ({
 			id: Number(o[1]),
