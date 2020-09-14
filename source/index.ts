@@ -4,6 +4,8 @@ import {saveCanteenMealFiles} from './fs'
 import {serialPromise} from './serial-promise'
 import * as git from './git'
 
+process.title = 'mensa-crawler'
+
 async function doit(): Promise<void> {
 	console.time('doit')
 	await git.init()
