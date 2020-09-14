@@ -1,3 +1,5 @@
+import {writeFileSync} from 'fs'
+
 import {Canteen} from './canteen'
 import {loadCanteens, loadMealsOfCanteenCurrentlyKnown} from './crawler'
 import {saveCanteenMealFiles} from './fs'
@@ -15,6 +17,7 @@ async function doit(): Promise<void> {
 		canteens
 	)
 	await git.commitAndPush()
+	writeFileSync('.last-successful-run', new Date().toISOString(), 'utf8')
 	console.timeEnd('doit')
 }
 
