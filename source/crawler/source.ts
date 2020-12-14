@@ -24,8 +24,8 @@ export function loadCanteenFromSource(content: string): Canteen[] {
 	const regex = /<a href="https?:\/\/speiseplan.studierendenwerk-hamburg.de\/index.php\/de\/cafeteria\/show\/id\/(\d+)" target="_blank">([^<]+)<\/a>/g
 	const results: Canteen[] = allMatches(regex, content)
 		.map(o => ({
-			id: Number(o[1]),
-			name: entities.decode(o[2]).replace(/-/g, ' ')
+			id: Number(o[1]!),
+			name: entities.decode(o[2]!).replace(/-/g, ' ')
 		}))
 
 	return results
@@ -44,7 +44,7 @@ export function loadMealsFromSource(content: string): Meal[] {
 	const meals: Meal[] = []
 
 	const mondayMatch = /Wochenplan:\s+<br \/>(\d{2})\.(\d{2})\.(\d{4})/.exec(content)!
-	const monday = Date.parse(`${mondayMatch[2]}-${mondayMatch[1]}-${mondayMatch[3]} UTC`)
+	const monday = Date.parse(`${mondayMatch[2]!}-${mondayMatch[1]!}-${mondayMatch[3]!} UTC`)
 
 	const lines = content
 		.split('\n')
@@ -89,10 +89,10 @@ export function loadMealsFromSource(content: string): Meal[] {
 			boniTexts = []
 			additives = {}
 		} else if (NAME_REGEX.test(line)) {
-			const nameHtml = NAME_REGEX.exec(line)![1]
+			const nameHtml = NAME_REGEX.exec(line)![1]!
 
 			for (const o of allMatches(ADDITIVE_REPLACE_REGEX, line)) {
-				additives[o[2]] = o[1]
+				additives[o[2]!] = o[1]!
 			}
 
 			name = nameHtml
@@ -104,13 +104,13 @@ export function loadMealsFromSource(content: string): Meal[] {
 		} else if (PRICE_REGEX.test(line)) {
 			const match = PRICE_REGEX.exec(line)!
 			prices = {
-				PriceStudent: Number(match[1].replace(/,/g, '.')),
-				PriceAttendant: Number(match[2].replace(/,/g, '.')),
-				PriceGuest: Number(match[3].replace(/,/g, '.'))
+				PriceStudent: Number(match[1]!.replace(/,/g, '.')),
+				PriceAttendant: Number(match[2]!.replace(/,/g, '.')),
+				PriceGuest: Number(match[3]!.replace(/,/g, '.'))
 			}
 		} else if (BONUS_REGEX.test(line)) {
 			boniTexts.push(
-				BONUS_REGEX.exec(line)![1]
+				BONUS_REGEX.exec(line)![1]!
 			)
 		}
 	}

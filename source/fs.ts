@@ -12,10 +12,10 @@ export async function saveCanteenMealFiles(canteenName: string, meals: readonly 
 	await fsPromises.mkdir(path, {recursive: true})
 
 	await Promise.all(
-		Object.keys(groupedByDay)
-			.map(async day => writeJson(
+		Object.entries(groupedByDay)
+			.map(async ([day, meals]) => writeJson(
 				`${path}/${day}.json`,
-				groupedByDay[day]
+				meals
 					.sort((a, b) => `${a.Category}${a.Name}`.localeCompare(`${b.Category}${b.Name}`))
 			))
 	)
