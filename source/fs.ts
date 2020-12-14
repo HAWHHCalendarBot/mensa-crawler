@@ -13,6 +13,7 @@ export async function saveCanteenMealFiles(canteenName: string, meals: readonly 
 
 	await Promise.all(
 		Object.entries(groupedByDay)
+			// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 			.map(async ([day, meals]) => writeJson(
 				`${path}/${day}.json`,
 				meals
