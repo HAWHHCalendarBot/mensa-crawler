@@ -29,7 +29,8 @@
 		"array-reduce-group-by": "^1.0.0",
 		"got": "^11.0.1",
 		"html-entities": "^2.0.2",
-		"json-stable-stringify": "^1.0.1"
+		"json-stable-stringify": "^1.0.1",
+		"source-map-support": "^0.5.19"
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^0.8.0",
