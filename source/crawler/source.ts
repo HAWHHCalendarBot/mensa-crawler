@@ -1,4 +1,4 @@
-import {Html5Entities as HtmlEntities} from 'html-entities'
+import {decode} from 'html-entities'
 
 import {Canteen} from '../canteen'
 import {Meal, MealContents, MealPrices} from '../meal'
@@ -20,12 +20,11 @@ function allMatches(regex: Readonly<RegExp>, string: string): ReadonlyArray<Read
 }
 
 export function loadCanteenFromSource(content: string): Canteen[] {
-	const entities = new HtmlEntities()
 	const regex = /<a href="https?:\/\/speiseplan.studierendenwerk-hamburg.de\/index.php\/de\/cafeteria\/show\/id\/(\d+)" target="_blank">([^<]+)<\/a>/g
 	const results: Canteen[] = allMatches(regex, content)
 		.map(o => ({
 			id: Number(o[1]!),
-			name: entities.decode(o[2]!).replace(/-/g, ' ')
+			name: decode(o[2], {level: 'html5'}).replace(/-/g, ' ')
 		}))
 
 	return results
