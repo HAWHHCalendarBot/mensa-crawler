@@ -1,4 +1,4 @@
-FROM docker.io/library/node:14-alpine
+FROM docker.io/library/node:14-alpine AS builder
 WORKDIR /build
 
 COPY package.json package-lock.json tsconfig.json ./
@@ -20,8 +20,8 @@ ENV NODE_ENV=production
 
 COPY gitconfig /root/.gitconfig
 COPY known_hosts /root/.ssh/known_hosts
-COPY --from=0 /build/node_modules ./node_modules
-COPY --from=0 /build/dist ./
+COPY --from=builder /build/node_modules ./node_modules
+COPY --from=builder /build/dist ./
 
 HEALTHCHECK --interval=5m \
     CMD bash -c '[[ $(find . -maxdepth 1 -name ".last-successful-run" -mmin "-250" -print | wc -l) == "1" ]]'
