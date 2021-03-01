@@ -119,13 +119,13 @@ export function loadMealsFromSource(content: string): Meal[] {
 
 function mealContentsFromBoniTexts(boniTexts: readonly string[]): MealContents {
 	return {
-		Alcohol: boniTexts.some(o => o === 'mit Alkohol'),
-		Beef: boniTexts.some(o => o === 'mit Rind'),
-		Fish: boniTexts.some(o => o === 'mit Fisch'),
-		LactoseFree: boniTexts.some(o => o === 'laktosefrei' || o === 'enthält keine laktosehaltigen Lebensmittel'),
-		Pig: boniTexts.some(o => o === 'mit Schwein'),
-		Poultry: boniTexts.some(o => o === 'mit Geflügel'),
-		Vegan: boniTexts.some(o => o === 'Vegan'),
-		Vegetarian: boniTexts.some(o => o === 'vegetarisch')
+		Alcohol: boniTexts.includes('mit Alkohol'),
+		Beef: boniTexts.includes('mit Rind'),
+		Fish: boniTexts.includes('mit Fisch'),
+		LactoseFree: boniTexts.includes('laktosefrei') || boniTexts.includes('enthält keine laktosehaltigen Lebensmittel'),
+		Pig: boniTexts.includes('mit Schwein'),
+		Poultry: boniTexts.includes('mit Geflügel'),
+		Vegan: boniTexts.includes('Vegan'),
+		Vegetarian: boniTexts.includes('vegetarisch')
 	}
 }
