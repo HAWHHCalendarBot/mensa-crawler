@@ -42,7 +42,12 @@ const BONUS_REGEX = /<img .+ title=.([^"]+).+\/>/
 export function loadMealsFromSource(content: string): Meal[] {
 	const meals: Meal[] = []
 
-	const mondayMatch = /Wochenplan:\s+<br \/>(\d{2})\.(\d{2})\.(\d{4})/.exec(content)!
+	const mondayMatch = /Wochenplan:\s+<br \/>(\d{2})\.(\d{2})\.(\d{4})/.exec(content)
+	if (!mondayMatch) {
+		console.log('WARNING: skip this source as the week could not be found out')
+		return meals
+	}
+
 	const monday = Date.parse(`${mondayMatch[2]!}-${mondayMatch[1]!}-${mondayMatch[3]!} UTC`)
 
 	const lines = content
