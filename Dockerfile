@@ -22,6 +22,7 @@ RUN apk --no-cache add bash git openssh-client
 
 ENV NODE_ENV=production
 
+COPY package.json ./
 COPY gitconfig /root/.gitconfig
 COPY known_hosts /root/.ssh/known_hosts
 COPY --from=packages /build/node_modules ./node_modules

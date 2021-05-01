@@ -1,7 +1,7 @@
 import {decode} from 'html-entities'
 
-import {Canteen} from '../canteen'
-import {Meal, MealContents, MealPrices} from '../meal'
+import {Canteen} from '../canteen.js'
+import {Meal, MealContents, MealPrices} from '../meal.js'
 
 const SECOND = 1000
 const MINUTE = 60 * SECOND

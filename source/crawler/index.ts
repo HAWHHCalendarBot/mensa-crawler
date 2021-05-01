@@ -1,9 +1,9 @@
-import {Canteen, canteenWeekUrl} from '../canteen'
-import {Meal} from '../meal'
-import {request} from '../network'
-import {weekNumber} from '../weeknumber'
+import {Canteen, canteenWeekUrl} from '../canteen.js'
+import {Meal} from '../meal.js'
+import {request} from '../network.js'
+import {weekNumber} from '../weeknumber.js'
 
-import {loadCanteenFromSource, loadMealsFromSource} from './source'
+import {loadCanteenFromSource, loadMealsFromSource} from './source.js'
 
 export async function loadCanteens(): Promise<Canteen[]> {
 	const response = await request('https://www.studierendenwerk-hamburg.de/gastronomie/speiseplaene')

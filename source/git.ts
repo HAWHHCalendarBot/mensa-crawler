@@ -16,7 +16,8 @@ export async function commitAndPush(): Promise<void> {
 	await gitCommand('add -A')
 	await tryCommit()
 
-	if (process.env.NODE_ENV === 'production') {
+	// eslint-disable-next-line @typescript-eslint/dot-notation
+	if (process.env['NODE_ENV'] === 'production') {
 		const result = await gitCommand('push -u')
 		console.log('git push', result)
 	}

@@ -1,10 +1,10 @@
 import {writeFileSync} from 'fs'
 
-import {Canteen} from './canteen'
-import {loadCanteens, loadMealsOfCanteenCurrentlyKnown} from './crawler'
-import {saveCanteenMealFiles} from './fs'
-import {serialPromise} from './serial-promise'
-import * as git from './git'
+import {Canteen} from './canteen.js'
+import {loadCanteens, loadMealsOfCanteenCurrentlyKnown} from './crawler/index.js'
+import {saveCanteenMealFiles} from './fs.js'
+import {serialPromise} from './serial-promise.js'
+import * as git from './git.js'
 
 process.title = 'mensa-crawler'
 
@@ -24,7 +24,8 @@ async function doit(): Promise<void> {
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 doit()
 
-if (process.env.NODE_ENV === 'production') {
+// eslint-disable-next-line @typescript-eslint/dot-notation
+if (process.env['NODE_ENV'] === 'production') {
 	// Every 70 minutes
 	setInterval(doit, 1000 * 60 * 70)
 }

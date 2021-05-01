@@ -3,7 +3,7 @@ import {promises as fsPromises} from 'fs'
 import * as stringify from 'json-stable-stringify'
 import arrayReduceGroupBy from 'array-reduce-group-by'
 
-import {Meal} from './meal'
+import {Meal} from './meal.js'
 
 export async function saveCanteenMealFiles(canteenName: string, meals: readonly Meal[]): Promise<void> {
 	const groupedByDay = meals.reduce(arrayReduceGroupBy<string, Meal>(o => dayFilenamePart(o.Date)), {})

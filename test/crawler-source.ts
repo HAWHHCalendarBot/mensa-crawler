@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import {loadMealsFromSource} from '../source/crawler/source'
+import {loadMealsFromSource} from '../source/crawler/source.js'
 
 const source = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
