@@ -10,21 +10,14 @@
 		"email": "calendarbot@hawhh.de",
 		"url": "https://calendarbot.hawhh.de"
 	},
-	"engines": {
-		"node": ">=14"
-	},
 	"scripts": {
 		"build": "del-cli dist && tsc",
-		"prepack": "npm run build",
 		"start": "ts-node source/index.ts",
 		"test": "tsc --sourceMap && xo && nyc ava"
 	},
-	"main": "dist/source",
-	"types": "dist/source",
-	"files": [
-		"dist/source",
-		"!*.test.*"
-	],
+	"engines": {
+		"node": ">=14"
+	},
 	"dependencies": {
 		"array-reduce-group-by": "^1.0.0",
 		"got": "^11.0.1",
