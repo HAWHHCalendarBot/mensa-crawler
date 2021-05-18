@@ -24,7 +24,6 @@ async function doit(): Promise<void> {
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 doit()
 
-// eslint-disable-next-line @typescript-eslint/dot-notation
 if (process.env['NODE_ENV'] === 'production') {
 	// Every 70 minutes
 	setInterval(doit, 1000 * 60 * 70)

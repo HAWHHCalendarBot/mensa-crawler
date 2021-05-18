@@ -16,7 +16,6 @@ export async function commitAndPush(): Promise<void> {
 	await gitCommand('add -A')
 	await tryCommit()
 
-	// eslint-disable-next-line @typescript-eslint/dot-notation
 	if (process.env['NODE_ENV'] === 'production') {
 		const result = await gitCommand('push -u')
 		console.log('git push', result)
@@ -32,6 +31,7 @@ async function tryCommit(): Promise<void> {
 		await gitCommand('commit -m "update" --no-gpg-sign --author "mensa-crawler <hawhh-mensa-crawler@3t0.de>"')
 	} catch (error: unknown) {
 		if (typeof error === 'object' && error !== null && 'stdout' in error) {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			const {stdout} = error as any
 			if (typeof stdout === 'string') {
 				if (stdout.includes('nothing to commit')) {
