@@ -18,9 +18,10 @@ FROM docker.io/library/node:14-alpine
 WORKDIR /app
 VOLUME /app/meals
 
-RUN apk --no-cache add bash git openssh-client
-
 ENV NODE_ENV=production
+
+RUN apk --no-cache upgrade \
+	&& apk --no-cache add bash git openssh-client
 
 COPY package.json ./
 COPY gitconfig /root/.gitconfig
