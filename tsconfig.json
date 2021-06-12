@@ -5,6 +5,7 @@
 		"test"
 	],
 	"compilerOptions": {
+		"esModuleInterop": true,
 		"declaration": false,
 		"sourceMap": true,
 		"outDir": "dist"
