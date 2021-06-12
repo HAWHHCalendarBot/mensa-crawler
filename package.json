@@ -1,6 +1,6 @@
 {
 	"name": "mensa-crawler",
-	"version": "2.2.2",
+	"version": "2.2.3",
 	"private": true,
 	"description": "Crawls the canteen data of student canteens in Hamburg",
 	"license": "MIT",
