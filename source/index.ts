@@ -14,7 +14,7 @@ async function doit(): Promise<void> {
 	const canteens = await loadCanteens()
 	await serialPromise(
 		async (canteen: Canteen) => saveCanteenMealFiles(canteen.name, await loadMealsOfCanteenCurrentlyKnown(canteen)),
-		canteens
+		canteens,
 	)
 	await git.commitAndPush()
 	writeFileSync('.last-successful-run', new Date().toISOString(), 'utf8')

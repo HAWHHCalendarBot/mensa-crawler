@@ -18,7 +18,7 @@ export async function loadMealsOfCanteenCurrentlyKnown(canteen: Canteen): Promis
 
 	const results = [
 		...(await loadMealsOfCanteen(canteen, currentYear, currentWeek)),
-		...(await loadMealsOfCanteen(canteen, currentYear, currentWeek + 1))
+		...(await loadMealsOfCanteen(canteen, currentYear, currentWeek + 1)),
 	]
 
 	return results

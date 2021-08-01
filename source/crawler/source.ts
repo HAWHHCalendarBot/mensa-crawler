@@ -24,7 +24,7 @@ export function loadCanteenFromSource(content: string): Canteen[] {
 	const results: Canteen[] = allMatches(regex, content)
 		.map(o => ({
 			id: Number(o[1]!),
-			name: decode(o[2], {level: 'html5'}).replace(/-/g, ' ')
+			name: decode(o[2], {level: 'html5'}).replace(/-/g, ' '),
 		}))
 
 	return results
@@ -79,7 +79,7 @@ export function loadMealsFromSource(content: string): Meal[] {
 				Date: new Date(date).toISOString(),
 				...prices,
 				...mealContentsFromBoniTexts(boniTexts),
-				Additives: additives
+				Additives: additives,
 			})
 
 			name = undefined
@@ -110,11 +110,11 @@ export function loadMealsFromSource(content: string): Meal[] {
 			prices = {
 				PriceStudent: Number(match[1]!.replace(/,/g, '.')),
 				PriceAttendant: Number(match[2]!.replace(/,/g, '.')),
-				PriceGuest: Number(match[3]!.replace(/,/g, '.'))
+				PriceGuest: Number(match[3]!.replace(/,/g, '.')),
 			}
 		} else if (BONUS_REGEX.test(line)) {
 			boniTexts.push(
-				BONUS_REGEX.exec(line)![1]!
+				BONUS_REGEX.exec(line)![1]!,
 			)
 		}
 	}
@@ -131,6 +131,6 @@ function mealContentsFromBoniTexts(boniTexts: readonly string[]): MealContents {
 		Pig: boniTexts.includes('mit Schwein'),
 		Poultry: boniTexts.includes('mit Geflügel'),
 		Vegan: boniTexts.includes('Vegan'),
-		Vegetarian: boniTexts.includes('vegetarisch')
+		Vegetarian: boniTexts.includes('vegetarisch'),
 	}
 }

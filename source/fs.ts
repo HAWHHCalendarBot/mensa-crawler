@@ -17,8 +17,8 @@ export async function saveCanteenMealFiles(canteenName: string, meals: readonly 
 			.map(async ([day, meals]) => writeJson(
 				`${path}/${day}.json`,
 				meals
-					.sort((a, b) => `${a.Category}${a.Name}`.localeCompare(`${b.Category}${b.Name}`))
-			))
+					.sort((a, b) => `${a.Category}${a.Name}`.localeCompare(`${b.Category}${b.Name}`)),
+			)),
 	)
 }
 
@@ -42,7 +42,7 @@ function ensureTwoDigits(input: number): string {
 async function writeJson(file: string, content: unknown): Promise<void> {
 	await fsPromises.writeFile(
 		file,
-		stringify(content, {space: '\t'}) + '\n'
+		stringify(content, {space: '\t'}) + '\n',
 	)
 }
 
@@ -50,7 +50,7 @@ export async function readMeals(canteen: string): Promise<Meal[]> {
 	const path = `meals/${canteen}`
 	const dir = await fsPromises.readdir(path)
 	const allContents = await Promise.all(
-		dir.map(async o => fsPromises.readFile(`${path}/${o}`, 'utf8'))
+		dir.map(async o => fsPromises.readFile(`${path}/${o}`, 'utf8')),
 	)
 	const allMeals = allContents
 		.flatMap(o => JSON.parse(o) as Meal[])

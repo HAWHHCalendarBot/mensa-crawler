@@ -293,7 +293,7 @@ test('example', t => {
 			Category: 'Gut und günstig',
 			Date: '2020-01-08T00:00:00.000Z',
 			Additives: {
-				Sl: 'Sellerie/-erzeugnisse'
+				Sl: 'Sellerie/-erzeugnisse',
 			},
 			PriceStudent: 2.5,
 			PriceAttendant: 3.8,
@@ -305,14 +305,14 @@ test('example', t => {
 			Fish: false,
 			Vegan: false,
 			Vegetarian: false,
-			Pig: false
+			Pig: false,
 		}, {
 			Name: 'Hähnchenbrust in Kardamommarinade (So), Tomaten Paprika Apfelgemüse mit Bambusstreifen (Sw), Basmatireis',
 			Category: 'Beliebt und gerne gegessen',
 			Date: '2020-01-10T00:00:00.000Z',
 			Additives: {
 				So: 'Soja/-erzeugnisse',
-				Sw: 'Schwefeldioxid/Sulfite'
+				Sw: 'Schwefeldioxid/Sulfite',
 			},
 			PriceStudent: 2.8,
 			PriceAttendant: 4.1,
@@ -324,7 +324,7 @@ test('example', t => {
 			Pig: false,
 			Poultry: true,
 			Vegan: false,
-			Vegetarian: false
+			Vegetarian: false,
 		}, {
 			Name: 'Putensteak, Kräuterbutter (La), Broccoli, Tomaten-Gnocchi (Gl, Ei)',
 			Category: 'Campus Spezial',
@@ -332,7 +332,7 @@ test('example', t => {
 			Additives: {
 				Ei: 'Ei/-erzeugnisse',
 				Gl: 'Glutenhaltiges Getreide und daraus hergestellte Erzeugnissse',
-				La: 'Milch/-erzeugnisse (einschl. Laktose)'
+				La: 'Milch/-erzeugnisse (einschl. Laktose)',
 			},
 			PriceStudent: 4.95,
 			PriceAttendant: 5.95,
@@ -344,7 +344,7 @@ test('example', t => {
 			Pig: false,
 			Poultry: true,
 			Vegan: false,
-			Vegetarian: false
+			Vegetarian: false,
 		}, {
 			Name: 'Susländer Nackenbraten, Biersoße (Gl, Sl), Spitzkohl, Semmelklöße (Gl, Ei)',
 			Category: 'Campus Spezial',
@@ -352,7 +352,7 @@ test('example', t => {
 			Additives: {
 				Ei: 'Ei/-erzeugnisse',
 				Gl: 'Glutenhaltiges Getreide und daraus hergestellte Erzeugnissse',
-				Sl: 'Sellerie/-erzeugnisse'
+				Sl: 'Sellerie/-erzeugnisse',
 			},
 			PriceStudent: 4.3,
 			PriceAttendant: 5.3,
@@ -364,7 +364,7 @@ test('example', t => {
 			Pig: true,
 			Poultry: false,
 			Vegan: false,
-			Vegetarian: false
+			Vegetarian: false,
 		}, {
 			Name: 'Grünkohl (2, 3, 8, Sf), Kochwurst (2, 3, 4, 8, Sf), Röstkartoffeln',
 			Category: 'Campus Spezial',
@@ -374,7 +374,7 @@ test('example', t => {
 				3: 'Antioxidationsmittel',
 				4: 'Geschmacksverstärker',
 				8: 'Phosphat',
-				Sf: 'Senf/-erzeugnisse'
+				Sf: 'Senf/-erzeugnisse',
 			},
 			PriceStudent: 4.3,
 			PriceAttendant: 5.3,
@@ -386,7 +386,7 @@ test('example', t => {
 			Pig: true,
 			Poultry: false,
 			Vegan: false,
-			Vegetarian: false
-		}
+			Vegetarian: false,
+		},
 	])
 })
