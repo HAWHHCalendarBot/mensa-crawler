@@ -15,13 +15,12 @@ RUN npm ci --production
 
 
 FROM docker.io/library/node:14-alpine
+ENV NODE_ENV=production
+RUN apk upgrade --no-cache \
+	&& apk --no-cache add bash git openssh-client
+
 WORKDIR /app
 VOLUME /app/meals
-
-ENV NODE_ENV=production
-
-RUN apk --no-cache upgrade \
-	&& apk --no-cache add bash git openssh-client
 
 COPY package.json ./
 COPY gitconfig /root/.gitconfig
