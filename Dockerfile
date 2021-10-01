@@ -33,7 +33,7 @@ COPY gitconfig /root/.gitconfig
 COPY known_hosts /root/.ssh/known_hosts
 COPY --from=builder /build/target/release/mensa-crawler /usr/bin/
 
-HEALTHCHECK --interval=5m \
+HEALTHCHECK \
     CMD bash -c '[[ $(find . -maxdepth 1 -name ".last-successful-run" -mmin "-250" -print | wc -l) == "1" ]]'
 
 ENTRYPOINT ["mensa-crawler"]
