@@ -36,7 +36,13 @@ pub struct Contents {
     #[serde(default)]
     pub fish: bool,
     #[serde(default)]
+    pub game: bool,
+    #[serde(default)]
+    pub gelatine: bool,
+    #[serde(default)]
     pub lactose_free: bool,
+    #[serde(default)]
+    pub lamb: bool,
     #[serde(default)]
     pub pig: bool,
     #[serde(default)]
@@ -67,8 +73,17 @@ impl std::fmt::Debug for Contents {
         if self.fish {
             f.write_str("Fish ")?;
         }
+        if self.game {
+            f.write_str("Game ")?;
+        }
+        if self.gelatine {
+            f.write_str("Gelatine ")?;
+        }
         if self.lactose_free {
             f.write_str("LactoseFree ")?;
+        }
+        if self.lamb {
+            f.write_str("Lamb ")?;
         }
         if self.pig {
             f.write_str("Pig ")?;
