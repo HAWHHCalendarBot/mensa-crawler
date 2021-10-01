@@ -3,15 +3,11 @@
 
 version: 2
 updates:
-  - package-ecosystem: "npm"
+  - package-ecosystem: "cargo"
     directory: "/"
     open-pull-requests-limit: 30
     schedule:
       interval: "monthly"
       time: "03:37" # UTC
-    versioning-strategy: increase-if-necessary
     commit-message:
-      prefix: "build(npm):"
-    ignore:
-      - dependency-name: "@types/node"
-        update-types: ["version-update:semver-major"]
+      prefix: "build(cargo):"

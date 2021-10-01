@@ -1,0 +1,30 @@
+[package]
+name = "mensa-crawler"
+description = "Crawls the canteen data of student canteens in Hamburg"
+version = "3.0.0"
+license = "MIT"
+repository = "https://github.com/HAWHHCalendarBot/mensa-crawler"
+authors = ["EdJoPaTo <calendarbot-mensa-crawler@hawhh.de>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[profile.release]
+# See https://doc.rust-lang.org/rustc/codegen-options/index.html
+codegen-units = 1
+lto = true
+
+[dependencies]
+anyhow = "1"
+regex = "1"
+scraper = "0.12"
+serde_json = "1"
+ureq = "2"
+
+[dependencies.chrono]
+version = "0.4"
+features = ["serde"]
+
+[dependencies.serde]
+version = "1"
+features = ["derive"]

@@ -1,9 +1,7 @@
 .*
 *.md
-**/*.test.*
-dist
+/target
 Dockerfile
-node_modules
 test
 
 meals
