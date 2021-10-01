@@ -42,7 +42,9 @@ fn once(agent: &ureq::Agent) -> anyhow::Result<()> {
 
     let total = this_week + next_week;
     println!("Got meals:{:>4} +{:>4} ={:>4}", this_week, next_week, total);
-    assert!(total > 0, "no meals found");
+    if total == 0 {
+        return Err(anyhow::anyhow!("no meals found"));
+    }
 
     git::commit_and_push()?;
     std::fs::write(".last-successful-run", "")?;
