@@ -111,10 +111,13 @@ fn prices_of_meal(html: &ElementRef) -> Option<Prices> {
     let html = html.html();
     let re = Regex::new(r#"(\d+,\d\d) €"#).unwrap();
     let mut captures = re.captures_iter(&html);
+    let price_student = euro_to_float(&captures.next()?[1])?;
+    let price_attendant = euro_to_float(&captures.next()?[1])?;
+    let price_guest = euro_to_float(&captures.next()?[1])?;
     Some(Prices {
-        price_attendant: euro_to_float(&captures.next()?[1])?,
-        price_guest: euro_to_float(&captures.next()?[1])?,
-        price_student: euro_to_float(&captures.next()?[1])?,
+        price_attendant,
+        price_guest,
+        price_student,
     })
 }
 
@@ -148,7 +151,7 @@ fn euro_to_float(euro: &str) -> Option<f32> {
 #[test]
 fn euro_to_float_works() {
     let result = euro_to_float("1,23").unwrap();
-    assert!((result - 1.23).abs() < f32::EPSILON);
+    float_eq::assert_float_eq!(result, 1.23, abs <= 0.001);
 }
 
 #[test]
@@ -158,4 +161,39 @@ fn testdata() {
 
     let total = result.values().flatten().count();
     assert_eq!(total, 106);
+}
+
+#[test]
+fn additives_work() {
+    let html = Html::parse_fragment(include_str!("../test/singlemeal.html"));
+    let additives = additives_of_meal(&html.root_element());
+    assert_eq!(3, additives.len());
+    assert_eq!(additives["Gl"], "glutenhaltiges Getreide und daraus hergestellte Erzeugnisse (z. B. Weizen, Roggen, Gerste etc.)");
+    assert_eq!(additives["Ei"], "Ei und Eierzeugnisse");
+    assert_eq!(
+        additives["La"],
+        "Milch und Milcherzeugnisse (einschl. Laktose)"
+    );
+}
+
+#[test]
+fn prices_work() {
+    let html = Html::parse_fragment(include_str!("../test/singlemeal.html"));
+    let prices = prices_of_meal(&html.root_element()).unwrap();
+    dbg!(&prices);
+    float_eq::assert_float_eq!(prices.price_student, 1.5, abs <= 0.001);
+    float_eq::assert_float_eq!(prices.price_attendant, 2.7, abs <= 0.001);
+    float_eq::assert_float_eq!(prices.price_guest, 3.4, abs <= 0.001);
+}
+
+#[test]
+fn contents_work() {
+    let html = Html::parse_fragment(include_str!("../test/singlemeal.html"));
+    let contents = contents_of_meal(&html.root_element());
+    dbg!(&contents);
+    let expected = Contents {
+        vegetarian: true,
+        ..Contents::default()
+    };
+    assert_eq!(contents, expected);
 }
