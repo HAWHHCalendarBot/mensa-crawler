@@ -121,3 +121,14 @@ fn meta_path_works() {
     let path = path.to_str().unwrap();
     assert_eq!(path, "meals/Cafe Shop ABC/20210801.json");
 }
+
+#[test]
+fn content_debug_works() {
+    let example = Contents {
+        vegan: true,
+        lactose_free: true,
+        ..Contents::default()
+    };
+    let output = format!("{:?}", example);
+    assert_eq!(output, "Contents { LactoseFree Vegan }");
+}
