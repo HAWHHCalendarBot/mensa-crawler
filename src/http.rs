@@ -13,7 +13,7 @@ fn get_with_headers(agent: &Agent, url: &str) -> Request {
     agent
         .get(url)
         .set("user-agent", USER_AGENT)
-        .set("from", "mensa-crawler@hawhh.de")
+        .set("from", "calendarbot-mensa-crawler@hawhh.de")
 }
 
 pub fn get_text(agent: &Agent, url: &str) -> anyhow::Result<String> {
