@@ -93,15 +93,15 @@ fn additives_of_meal(html: &ElementRef) -> BTreeMap<String, String> {
     let contents = html
         .select(&selector)
         .map(|o| o.inner_html().trim().to_string())
-        .filter(|o| o.ends_with(',') && o.contains('='))
+        .filter(|o| o.ends_with(',') && o.contains(" = "))
         .map(|o| o[0..o.len() - 1].trim().to_string())
         .collect::<Vec<_>>();
     let mut result = BTreeMap::new();
     for content in contents {
-        let mut splitted = content.split(" = ");
-        let key = splitted.next().unwrap();
-        let value = splitted.next().unwrap();
-        result.insert(key.to_string(), value.to_string());
+        let splitted = content.split(" = ").collect::<Vec<_>>();
+        if let [key, value] = splitted.as_slice() {
+            result.insert((*key).to_string(), (*value).to_string());
+        }
     }
     result
 }
