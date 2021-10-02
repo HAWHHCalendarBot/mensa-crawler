@@ -1,0 +1,2 @@
+# Improve language detection https://github.com/github/linguist/blob/master/docs/overrides.md
+test/*.html linguist-generated
