@@ -32,13 +32,13 @@ fn once(agent: &ureq::Agent) -> anyhow::Result<()> {
     let html = http::get_text(agent, URL_THIS_WEEK)?;
     let meals = parse::parse(&html);
     let this_week = meals.values().flatten().count();
-    write_meals(&meals)?;
+    write_meals(meals)?;
 
     println!("next week...");
     let html = http::get_text(agent, URL_NEXT_WEEK)?;
     let meals = parse::parse(&html);
     let next_week = meals.values().flatten().count();
-    write_meals(&meals)?;
+    write_meals(meals)?;
 
     let total = this_week + next_week;
     println!("Got meals:{:>4} +{:>4} ={:>4}", this_week, next_week, total);
@@ -51,13 +51,17 @@ fn once(agent: &ureq::Agent) -> anyhow::Result<()> {
     Ok(())
 }
 
-fn write_meals(meals: &HashMap<Meta, Vec<Meal>>) -> anyhow::Result<()> {
-    for (meta, meals) in meals {
+fn write_meals(mut meals: HashMap<Meta, Vec<Meal>>) -> anyhow::Result<()> {
+    for (meta, meals) in &mut meals {
         let path = meta.get_path();
         let folder = path.parent().expect("always has a folder");
         std::fs::create_dir_all(folder)?;
 
-        let contents = serde_json::to_string_pretty(meals)?;
+        meals.sort_by_key(|o| o.name.to_string());
+        meals.sort_by_key(|o| o.additives.len());
+        meals.sort_by(|a, b| a.prices.partial_cmp(&b.prices).unwrap());
+
+        let contents = serde_json::to_string_pretty(&meals)?;
         std::fs::write(path, contents + "\n")?;
     }
 

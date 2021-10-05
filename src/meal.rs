@@ -53,7 +53,7 @@ pub struct Contents {
     pub vegetarian: bool,
 }
 
-#[derive(Debug, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, PartialOrd)]
 #[serde(rename_all = "PascalCase")]
 pub struct Prices {
     pub price_attendant: f32,
