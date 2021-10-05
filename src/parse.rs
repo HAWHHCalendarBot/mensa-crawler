@@ -71,7 +71,7 @@ pub fn parse(html: &str) -> HashMap<Meta, Vec<Meal>> {
 }
 
 fn meal(html: &ElementRef, category: String, date: DateTime<Utc>) -> Option<Meal> {
-    let name_selector = Selector::parse("h5").unwrap();
+    let name_selector = Selector::parse(".singlemeal__headline").unwrap();
     let name = html
         .select(&name_selector)
         .next()?
@@ -196,4 +196,37 @@ fn contents_work() {
         ..Contents::default()
     };
     assert_eq!(contents, expected);
+}
+
+#[test]
+fn dailytip_works() {
+    let html = Html::parse_fragment(include_str!("../test/dailytip.html"));
+    let result = meal(
+        &html.root_element(),
+        "ABCD".to_string(),
+        DateTime::parse_from_rfc3339("2021-10-08T00:00:00Z")
+            .unwrap()
+            .into(),
+    )
+    .unwrap();
+    dbg!(&result);
+
+    assert_eq!(
+        result.name,
+        "Wir kochen, was Sie lieben..., Currybratwurst (3,4,8,Sf), BBQ-Grill-So\u{df}e (9,Sl,Sf), Pommes Frites (Sf)"
+    );
+
+    let additives = result.additives;
+    assert_eq!(additives.len(), 6);
+
+    float_eq::assert_float_eq!(result.prices.price_student, 3.4, abs <= 0.001);
+    float_eq::assert_float_eq!(result.prices.price_attendant, 4.7, abs <= 0.001);
+    float_eq::assert_float_eq!(result.prices.price_guest, 5.9, abs <= 0.001);
+
+    let expected_contents = Contents {
+        lactose_free: true,
+        pig: true,
+        ..Contents::default()
+    };
+    assert_eq!(result.contents, expected_contents);
 }
