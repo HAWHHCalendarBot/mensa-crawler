@@ -53,11 +53,6 @@ fn once(agent: &ureq::Agent) -> anyhow::Result<()> {
 
 fn write_meals(mut meals: HashMap<Meta, Vec<Meal>>) -> anyhow::Result<()> {
     for (meta, meals) in &mut meals {
-        // Dont write "empty" files
-        if meals.is_empty() {
-            continue;
-        }
-
         let path = meta.get_path();
         let folder = path.parent().expect("always has a folder");
         std::fs::create_dir_all(folder)?;
@@ -66,8 +61,17 @@ fn write_meals(mut meals: HashMap<Meta, Vec<Meal>>) -> anyhow::Result<()> {
         meals.sort_by_key(|o| o.additives.len());
         meals.sort_by(|a, b| a.prices.partial_cmp(&b.prices).unwrap());
 
-        let contents = serde_json::to_string_pretty(&meals)?;
-        std::fs::write(path, contents + "\n")?;
+        if meals.is_empty() {
+            // Don't write "empty" files
+            if path.exists() {
+                // Delete "empty" files
+                // Happens when the mensa closes but was planned to be open before
+                std::fs::remove_file(path)?;
+            }
+        } else {
+            let contents = serde_json::to_string_pretty(&meals)?;
+            std::fs::write(path, contents + "\n")?;
+        }
     }
 
     Ok(())
