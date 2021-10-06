@@ -53,6 +53,11 @@ fn once(agent: &ureq::Agent) -> anyhow::Result<()> {
 
 fn write_meals(mut meals: HashMap<Meta, Vec<Meal>>) -> anyhow::Result<()> {
     for (meta, meals) in &mut meals {
+        // Dont write "empty" files
+        if meals.is_empty() {
+            continue;
+        }
+
         let path = meta.get_path();
         let folder = path.parent().expect("always has a folder");
         std::fs::create_dir_all(folder)?;
