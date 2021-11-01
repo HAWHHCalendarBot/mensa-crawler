@@ -30,4 +30,4 @@ version = "1"
 features = ["derive"]
 
 [dev-dependencies]
-float_eq = "0.6"
+float_eq = "0.7"
