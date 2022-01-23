@@ -7,26 +7,27 @@ use scraper::{ElementRef, Html, Selector};
 use crate::meal::{Contents, Meal, Meta, Prices};
 
 pub fn parse(html: &str) -> HashMap<Meta, Vec<Meal>> {
-    let location_selector = Selector::parse("div[data-location-id]").unwrap();
-    let title_selector = Selector::parse(".mensainfo__title").unwrap();
-    let date_selector = Selector::parse("div[data-timestamp]").unwrap();
-    let category_selector = Selector::parse(".menulist__categorywrapper").unwrap();
-    let category_header_selector = Selector::parse("h5").unwrap();
-    let meal_selector = Selector::parse(".singlemeal").unwrap();
-
+    lazy_static::lazy_static! {
+        static ref LOCATION_SELECTOR: Selector = Selector::parse("div[data-location-id]").unwrap();
+        static ref TITLE_SELECTOR: Selector = Selector::parse(".mensainfo__title").unwrap();
+        static ref DATE_SELECTOR: Selector = Selector::parse("div[data-timestamp]").unwrap();
+        static ref CATEGORY_SELECTOR: Selector = Selector::parse(".menulist__categorywrapper").unwrap();
+        static ref CATEGORY_HEADER_SELECTOR: Selector = Selector::parse("h5").unwrap();
+        static ref MEAL_SELECTOR: Selector = Selector::parse(".singlemeal").unwrap();
+    }
     let mut result: HashMap<Meta, Vec<Meal>> = HashMap::new();
 
     let html = Html::parse_document(html);
-    let canteens = html.select(&location_selector);
+    let canteens = html.select(&LOCATION_SELECTOR);
     for location_html in canteens {
         let canteen = location_html
-            .select(&title_selector)
+            .select(&TITLE_SELECTOR)
             .next()
             .expect("canteen has no name")
             .inner_html();
         dbg!(&canteen);
 
-        let date_parts = location_html.select(&date_selector);
+        let date_parts = location_html.select(&DATE_SELECTOR);
         for date_html in date_parts {
             let date = date_html
                 .value()
@@ -42,15 +43,15 @@ pub fn parse(html: &str) -> HashMap<Meta, Vec<Meal>> {
             };
             let result = result.entry(meta).or_default();
 
-            let categories = date_html.select(&category_selector);
+            let categories = date_html.select(&CATEGORY_SELECTOR);
             for category_html in categories {
                 let category = category_html
-                    .select(&category_header_selector)
+                    .select(&CATEGORY_HEADER_SELECTOR)
                     .map(|o| o.inner_html().trim().to_string())
                     .next()
                     .expect("a category without a title?");
 
-                let meals = category_html.select(&meal_selector);
+                let meals = category_html.select(&MEAL_SELECTOR);
                 for meal_html in meals {
                     if let Some(meal) = meal(&meal_html, category.to_string(), date) {
                         result.push(meal);
@@ -64,9 +65,11 @@ pub fn parse(html: &str) -> HashMap<Meta, Vec<Meal>> {
 }
 
 fn meal(html: &ElementRef, category: String, date: DateTime<Utc>) -> Option<Meal> {
-    let name_selector = Selector::parse(".singlemeal__headline").unwrap();
+    lazy_static::lazy_static! {
+        static ref SELECTOR: Selector = Selector::parse(".singlemeal__headline").unwrap();
+    }
     let name = html
-        .select(&name_selector)
+        .select(&SELECTOR)
         .next()?
         .inner_html()
         .trim()
@@ -82,9 +85,11 @@ fn meal(html: &ElementRef, category: String, date: DateTime<Utc>) -> Option<Meal
 }
 
 fn additives_of_meal(html: &ElementRef) -> BTreeMap<String, String> {
-    let selector = Selector::parse("span.singlemeal__info").unwrap();
+    lazy_static::lazy_static! {
+        static ref SELECTOR: Selector = Selector::parse("span.singlemeal__info").unwrap();
+    }
     let contents = html
-        .select(&selector)
+        .select(&SELECTOR)
         .map(|o| o.inner_html().trim().to_string())
         .filter(|o| o.ends_with(',') && o.contains(" = "))
         .map(|o| o[0..o.len() - 1].trim().to_string());
@@ -114,9 +119,11 @@ fn prices_of_meal(html: &ElementRef) -> Option<Prices> {
 }
 
 fn contents_of_meal(html: &ElementRef) -> Contents {
-    let selector = Selector::parse("span[title] img[src]").unwrap();
+    lazy_static::lazy_static! {
+        static ref SELECTOR: Selector = Selector::parse("span[title] img[src]").unwrap();
+    }
     let contents = html
-        .select(&selector)
+        .select(&SELECTOR)
         .filter_map(|o| o.value().attr("src"))
         .filter_map(|o| o.split('/').last())
         .filter_map(|o| o.split('.').next())

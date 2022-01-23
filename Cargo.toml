@@ -15,18 +15,13 @@ lto = true
 
 [dependencies]
 anyhow = "1"
+chrono = { version = "0.4", features = ["serde"] }
+lazy_static = "1"
 regex = "1"
 scraper = "0.12"
+serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 ureq = "2"
-
-[dependencies.chrono]
-version = "0.4"
-features = ["serde"]
-
-[dependencies.serde]
-version = "1"
-features = ["derive"]
 
 [dev-dependencies]
 float_eq = "0.7"

@@ -352,6 +352,7 @@ dependencies = [
  "anyhow",
  "chrono",
  "float_eq",
+ "lazy_static",
  "regex",
  "scraper",
  "serde",
