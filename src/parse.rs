@@ -16,13 +16,8 @@ pub fn parse(html: &str) -> HashMap<Meta, Vec<Meal>> {
 
     let mut result: HashMap<Meta, Vec<Meal>> = HashMap::new();
 
-    let parsed_html = Html::parse_document(html);
-
-    let canteens = parsed_html
-        .select(&location_selector)
-        // .map(|o| o.html())
-        .collect::<Vec<_>>();
-
+    let html = Html::parse_document(html);
+    let canteens = html.select(&location_selector);
     for location_html in canteens {
         let canteen = location_html
             .select(&title_selector)
@@ -31,7 +26,7 @@ pub fn parse(html: &str) -> HashMap<Meta, Vec<Meal>> {
             .inner_html();
         dbg!(&canteen);
 
-        let date_parts = location_html.select(&date_selector).collect::<Vec<_>>();
+        let date_parts = location_html.select(&date_selector);
         for date_html in date_parts {
             let date = date_html
                 .value()
@@ -47,8 +42,7 @@ pub fn parse(html: &str) -> HashMap<Meta, Vec<Meal>> {
             };
             let result = result.entry(meta).or_default();
 
-            let categories = date_html.select(&category_selector).collect::<Vec<_>>();
-
+            let categories = date_html.select(&category_selector);
             for category_html in categories {
                 let category = category_html
                     .select(&category_header_selector)
@@ -56,8 +50,7 @@ pub fn parse(html: &str) -> HashMap<Meta, Vec<Meal>> {
                     .next()
                     .expect("a category without a title?");
 
-                let meals = category_html.select(&meal_selector).collect::<Vec<_>>();
-
+                let meals = category_html.select(&meal_selector);
                 for meal_html in meals {
                     if let Some(meal) = meal(&meal_html, category.to_string(), date) {
                         result.push(meal);
@@ -94,8 +87,7 @@ fn additives_of_meal(html: &ElementRef) -> BTreeMap<String, String> {
         .select(&selector)
         .map(|o| o.inner_html().trim().to_string())
         .filter(|o| o.ends_with(',') && o.contains(" = "))
-        .map(|o| o[0..o.len() - 1].trim().to_string())
-        .collect::<Vec<_>>();
+        .map(|o| o[0..o.len() - 1].trim().to_string());
     let mut result = BTreeMap::new();
     for content in contents {
         let splitted = content.split(" = ").collect::<Vec<_>>();
