@@ -363,7 +363,7 @@ dependencies = [
  "anyhow",
  "chrono",
  "float_eq",
- "lazy_static",
+ "once_cell",
  "regex",
  "scraper",
  "serde",

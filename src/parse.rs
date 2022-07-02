@@ -1,20 +1,23 @@
 use std::collections::{BTreeMap, HashMap};
 
 use chrono::{DateTime, TimeZone, Utc};
+use once_cell::sync::Lazy;
 use regex::Regex;
 use scraper::{ElementRef, Html, Selector};
 
 use crate::meal::{Contents, Meal, Meta, Prices};
 
 pub fn parse(html: &str) -> HashMap<Meta, Vec<Meal>> {
-    lazy_static::lazy_static! {
-        static ref LOCATION_SELECTOR: Selector = Selector::parse("div[data-location-id]").unwrap();
-        static ref TITLE_SELECTOR: Selector = Selector::parse(".mensainfo__title").unwrap();
-        static ref DATE_SELECTOR: Selector = Selector::parse("div[data-timestamp]").unwrap();
-        static ref CATEGORY_SELECTOR: Selector = Selector::parse(".menulist__categorywrapper").unwrap();
-        static ref CATEGORY_HEADER_SELECTOR: Selector = Selector::parse("h5").unwrap();
-        static ref MEAL_SELECTOR: Selector = Selector::parse(".singlemeal").unwrap();
-    }
+    static LOCATION_SELECTOR: Lazy<Selector> =
+        Lazy::new(|| Selector::parse("div[data-location-id]").unwrap());
+    static TITLE_SELECTOR: Lazy<Selector> =
+        Lazy::new(|| Selector::parse(".mensainfo__title").unwrap());
+    static DATE_SELECTOR: Lazy<Selector> =
+        Lazy::new(|| Selector::parse("div[data-timestamp]").unwrap());
+    static CATEGORY_SELECTOR: Lazy<Selector> =
+        Lazy::new(|| Selector::parse(".menulist__categorywrapper").unwrap());
+    static CATEGORY_HEADER_SELECTOR: Lazy<Selector> = Lazy::new(|| Selector::parse("h5").unwrap());
+    static MEAL_SELECTOR: Lazy<Selector> = Lazy::new(|| Selector::parse(".singlemeal").unwrap());
     let mut result: HashMap<Meta, Vec<Meal>> = HashMap::new();
 
     let html = Html::parse_document(html);
@@ -65,9 +68,8 @@ pub fn parse(html: &str) -> HashMap<Meta, Vec<Meal>> {
 }
 
 fn meal(html: &ElementRef, category: String, date: DateTime<Utc>) -> Option<Meal> {
-    lazy_static::lazy_static! {
-        static ref SELECTOR: Selector = Selector::parse(".singlemeal__headline").unwrap();
-    }
+    static SELECTOR: Lazy<Selector> =
+        Lazy::new(|| Selector::parse(".singlemeal__headline").unwrap());
     let name = html
         .select(&SELECTOR)
         .next()?
@@ -85,9 +87,8 @@ fn meal(html: &ElementRef, category: String, date: DateTime<Utc>) -> Option<Meal
 }
 
 fn additives_of_meal(html: &ElementRef) -> BTreeMap<String, String> {
-    lazy_static::lazy_static! {
-        static ref SELECTOR: Selector = Selector::parse("span.singlemeal__info").unwrap();
-    }
+    static SELECTOR: Lazy<Selector> =
+        Lazy::new(|| Selector::parse("span.singlemeal__info").unwrap());
     let contents = html
         .select(&SELECTOR)
         .map(|o| o.inner_html().trim().to_string())
@@ -119,9 +120,8 @@ fn prices_of_meal(html: &ElementRef) -> Option<Prices> {
 }
 
 fn contents_of_meal(html: &ElementRef) -> Contents {
-    lazy_static::lazy_static! {
-        static ref SELECTOR: Selector = Selector::parse("span[title] img[src]").unwrap();
-    }
+    static SELECTOR: Lazy<Selector> =
+        Lazy::new(|| Selector::parse("span[title] img[src]").unwrap());
     let contents = html
         .select(&SELECTOR)
         .filter_map(|o| o.value().attr("src"))
