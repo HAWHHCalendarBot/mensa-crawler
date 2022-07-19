@@ -7,7 +7,7 @@ on:
 jobs:
   tarpaulin:
     name: Tarpaulin
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Setup Rust
         uses: actions-rs/toolchain@v1
