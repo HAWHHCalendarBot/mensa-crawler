@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-set -e
+set -eux
 
-curl "https://www.studierendenwerk-hamburg.de/speiseplan/?t=next_day" > list.html
+curl "https://www.stwhh.de/speiseplan/?t=next_day" > list.html
