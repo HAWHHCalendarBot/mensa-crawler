@@ -1,3 +1,5 @@
+[pull]
+	ff = only
 [user]
 	name = mensa-crawler
 	email = calendarbot-mensa-crawler@hawhh.de
