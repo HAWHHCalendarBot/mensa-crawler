@@ -19,7 +19,7 @@ fn get_with_headers(agent: &Agent, url: &str) -> Request {
 pub fn get_text(agent: &Agent, url: &str) -> anyhow::Result<String> {
     get_with_headers(agent, url)
         .call()
-        .map_err(|err| anyhow!("failed to get {}", err))?
+        .map_err(|err| anyhow!("failed to get {err}"))?
         .into_string()
-        .map_err(|err| anyhow!("failed to read string {} {}", url, err))
+        .map_err(|err| anyhow!("failed to read string {url} {err}"))
 }

@@ -8,7 +8,7 @@ fn command(args: &[&str]) -> anyhow::Result<()> {
         .args(args)
         .current_dir("meals")
         .status()
-        .map_err(|err| anyhow!("failed to push repo {}", err))?;
+        .map_err(|err| anyhow!("failed to push repo {err}"))?;
 
     if status.success() {
         Ok(())
@@ -28,16 +28,16 @@ pub fn pull() -> anyhow::Result<()> {
         let status = Command::new("git")
             .arg("clone")
             .arg("-q")
-            .args(&["--depth", "1"])
+            .args(["--depth", "1"])
             .arg("git@github.com:HAWHHCalendarBot/mensa-data.git")
             .arg("meals")
             .status()
-            .map_err(|err| anyhow!("failed to clone repo {}", err))?;
+            .map_err(|err| anyhow!("failed to clone repo {err}"))?;
 
         if status.success() {
             Ok(())
         } else {
-            Err(anyhow!("failed to clone/pull. Status code {}", status))
+            Err(anyhow!("failed to clone/pull. Status code {status}"))
         }
     }
 }

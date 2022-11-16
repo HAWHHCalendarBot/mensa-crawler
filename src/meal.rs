@@ -129,6 +129,6 @@ fn content_debug_works() {
         lactose_free: true,
         ..Contents::default()
     };
-    let output = format!("{:?}", example);
+    let output = format!("{example:?}");
     assert_eq!(output, "Contents { LactoseFree Vegan }");
 }

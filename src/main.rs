@@ -14,7 +14,7 @@ fn main() {
     loop {
         println!("time for another update");
         if let Err(err) = once(&agent) {
-            eprintln!("ERROR: {}", err);
+            eprintln!("ERROR: {err}");
         }
 
         println!("now sleep 70 minutes...\n\n");
@@ -41,7 +41,7 @@ fn once(agent: &ureq::Agent) -> anyhow::Result<()> {
     write_meals(meals)?;
 
     let total = this_week + next_week;
-    println!("Got meals:{:>4} +{:>4} ={:>4}", this_week, next_week, total);
+    println!("Got meals:{this_week:>4} +{next_week:>4} ={total:>4}");
     anyhow::ensure!(total > 0, "no meals found");
 
     git::commit_and_push()?;
