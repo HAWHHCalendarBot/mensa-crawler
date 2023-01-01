@@ -1,9 +1,9 @@
 FROM docker.io/library/rust:1-bullseye as builder
 WORKDIR /build
 RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+	&& apt-get upgrade -y \
+	&& apt-get clean \
+	&& rm -rf /var/lib/apt/lists/*
 
 # cargo needs a dummy src/main.rs to detect bin mode
 RUN mkdir -p src && echo "fn main() {}" > src/main.rs
@@ -22,10 +22,10 @@ RUN cargo build --release --frozen --offline
 # Start building the final image
 FROM docker.io/library/debian:bullseye-slim
 RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y git \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /var/cache/* /var/log/*
+	&& apt-get upgrade -y \
+	&& apt-get install -y git \
+	&& apt-get clean \
+	&& rm -rf /var/lib/apt/lists/* /var/cache/* /var/log/*
 
 WORKDIR /app
 VOLUME /app/meals
