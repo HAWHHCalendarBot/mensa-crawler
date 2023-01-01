@@ -28,8 +28,8 @@ fn main() {
 }
 
 fn once(agent: &ureq::Agent) -> anyhow::Result<()> {
-    const URL_THIS_WEEK: &str = "https://www.studierendenwerk-hamburg.de/speiseplan/?t=this_week";
-    const URL_NEXT_WEEK: &str = "https://www.studierendenwerk-hamburg.de/speiseplan/?t=next_week";
+    const URL_THIS_WEEK: &str = "https://www.stwhh.de/speiseplan/?t=this_week";
+    const URL_NEXT_WEEK: &str = "https://www.stwhh.de/speiseplan/?t=next_week";
 
     git::pull()?;
 
