@@ -23,7 +23,7 @@ RUN cargo build --release --frozen --offline
 FROM docker.io/library/debian:bullseye-slim
 RUN apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y bash git \
+    && apt-get install -y git \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/cache/* /var/log/*
 
@@ -33,8 +33,5 @@ VOLUME /app/meals
 COPY gitconfig /root/.gitconfig
 COPY known_hosts /root/.ssh/known_hosts
 COPY --from=builder /build/target/release/mensa-crawler /usr/bin/
-
-HEALTHCHECK \
-    CMD bash -c '[[ $(find . -maxdepth 1 -name ".last-successful-run" -mmin "-250" -print | wc -l) == "1" ]]'
 
 ENTRYPOINT ["mensa-crawler"]

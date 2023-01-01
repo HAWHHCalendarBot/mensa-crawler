@@ -11,10 +11,15 @@ mod parse;
 
 fn main() {
     let agent = ureq::AgentBuilder::new().build();
+    let mut errors: usize = 0;
     loop {
         println!("time for another update");
         if let Err(err) = once(&agent) {
             eprintln!("ERROR: {err}");
+            errors += 1;
+            assert!(errors < 3, "failed {errors} times in a row");
+        } else {
+            errors = 0;
         }
 
         println!("now sleep 70 minutes...\n\n");
@@ -45,7 +50,6 @@ fn once(agent: &ureq::Agent) -> anyhow::Result<()> {
     anyhow::ensure!(total > 0, "no meals found");
 
     git::commit_and_push()?;
-    std::fs::write(".last-successful-run", "")?;
     Ok(())
 }
 
