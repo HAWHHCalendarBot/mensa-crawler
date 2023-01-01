@@ -1,6 +1,6 @@
 use std::collections::{BTreeMap, HashMap};
 
-use chrono::{DateTime, TimeZone, Utc};
+use chrono::{DateTime, NaiveDate, Utc};
 use once_cell::sync::Lazy;
 use regex::Regex;
 use scraper::{ElementRef, Html, Selector};
@@ -36,9 +36,12 @@ pub fn parse(html: &str) -> HashMap<Meta, Vec<Meal>> {
                 .value()
                 .attr("data-timestamp")
                 .expect("selected by attribute")
-                .parse()
-                .expect("date not formatted like a NaiveDate");
-            let date = Utc.from_utc_date(&date).and_hms(0, 0, 0);
+                .parse::<NaiveDate>()
+                .expect("date not formatted like a NaiveDate")
+                .and_hms_opt(0, 0, 0)
+                .unwrap()
+                .and_local_timezone(Utc)
+                .unwrap();
 
             let meta = Meta {
                 canteen: canteen.to_string(),
