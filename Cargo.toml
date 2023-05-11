@@ -1,7 +1,7 @@
 [package]
 name = "mensa-crawler"
 description = "Crawls the canteen data of student canteens in Hamburg"
-version = "3.1.5"
+version = "3.1.6"
 license = "MIT"
 repository = "https://github.com/HAWHHCalendarBot/mensa-crawler"
 authors = ["EdJoPaTo <calendarbot-mensa-crawler@hawhh.de>"]
@@ -18,7 +18,7 @@ anyhow = "1"
 chrono = { version = "0.4", default-features = false, features = ["clock", "serde"] }
 lazy-regex = "2"
 once_cell = "1"
-scraper = "0.14"
+scraper = "0.16"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 ureq = "2"
