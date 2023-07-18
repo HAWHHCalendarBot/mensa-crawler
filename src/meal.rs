@@ -1,13 +1,13 @@
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 
-use chrono::{DateTime, Utc};
+use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Hash, PartialEq, Eq)]
 pub struct Meta {
     pub canteen: String,
-    pub date: DateTime<Utc>,
+    pub date: NaiveDate,
 }
 
 #[derive(Debug, Serialize, Deserialize, PartialEq)]
@@ -15,7 +15,7 @@ pub struct Meta {
 pub struct Meal {
     pub name: String,
     pub category: String,
-    pub date: DateTime<Utc>,
+    pub date: NaiveDate,
     pub additives: BTreeMap<String, String>,
 
     #[serde(flatten)]
@@ -104,7 +104,7 @@ impl std::fmt::Debug for Contents {
 impl Meta {
     pub fn get_path(&self) -> PathBuf {
         let canteen = self.canteen.replace('-', " ").replace("&amp;", "&");
-        let date = self.date.format("%Y%m%d.json").to_string();
+        let date = self.date.format("%Y/%m/%d.json").to_string();
         Path::new("meals").join(canteen).join(date)
     }
 }
@@ -113,13 +113,13 @@ impl Meta {
 fn meta_path_works() {
     let meta = Meta {
         canteen: "Cafe-Shop ABC".to_string(),
-        date: DateTime::parse_from_rfc3339("2021-08-01T13:14:15Z")
+        date: chrono::DateTime::parse_from_rfc3339("2021-08-01T13:14:15Z")
             .unwrap()
-            .into(),
+            .date_naive(),
     };
     let path = meta.get_path();
     let path = path.to_str().unwrap();
-    assert_eq!(path, "meals/Cafe Shop ABC/20210801.json");
+    assert_eq!(path, "meals/Cafe Shop ABC/2021/08/01.json");
 }
 
 #[test]

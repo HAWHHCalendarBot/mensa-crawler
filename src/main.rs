@@ -2,7 +2,10 @@ use std::collections::HashMap;
 use std::thread::sleep;
 use std::time::Duration;
 
-use meal::{Meal, Meta};
+use crate::meal::{Meal, Meta};
+use serde::Serialize;
+use serde_json::ser::PrettyFormatter;
+use serde_json::Serializer;
 
 mod git;
 mod http;
@@ -71,7 +74,11 @@ fn write_meals(mut meals: HashMap<Meta, Vec<Meal>>) -> anyhow::Result<()> {
                 std::fs::remove_file(path)?;
             }
         } else {
-            let contents = serde_json::to_string_pretty(&meals)?;
+            let formatter = PrettyFormatter::with_indent(b"\t");
+            let mut serializer = Serializer::with_formatter(Vec::new(), formatter);
+            meals.serialize(&mut serializer)?;
+            let contents = String::from_utf8(serializer.into_inner())
+                .expect("serde_json generates only valid Utf-8");
             std::fs::write(path, contents + "\n")?;
         }
     }

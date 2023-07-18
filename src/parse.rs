@@ -1,6 +1,6 @@
 use std::collections::{BTreeMap, HashMap};
 
-use chrono::{DateTime, NaiveDate, Utc};
+use chrono::NaiveDate;
 use lazy_regex::{lazy_regex, Regex};
 use once_cell::sync::Lazy;
 use scraper::{ElementRef, Html, Selector};
@@ -37,11 +37,7 @@ pub fn parse(html: &str) -> HashMap<Meta, Vec<Meal>> {
                 .attr("data-timestamp")
                 .expect("selected by attribute")
                 .parse::<NaiveDate>()
-                .expect("date not formatted like a NaiveDate")
-                .and_hms_opt(0, 0, 0)
-                .unwrap()
-                .and_local_timezone(Utc)
-                .unwrap();
+                .expect("date not formatted like a NaiveDate");
 
             let meta = Meta {
                 canteen: canteen.to_string(),
@@ -70,7 +66,7 @@ pub fn parse(html: &str) -> HashMap<Meta, Vec<Meal>> {
     result
 }
 
-fn meal(html: &ElementRef, category: String, date: DateTime<Utc>) -> Option<Meal> {
+fn meal(html: &ElementRef, category: String, date: NaiveDate) -> Option<Meal> {
     static SELECTOR: Lazy<Selector> =
         Lazy::new(|| Selector::parse(".singlemeal__headline").unwrap());
     let name = html
@@ -207,9 +203,9 @@ fn dailytip_works() {
     let result = meal(
         &html.root_element(),
         "ABCD".to_string(),
-        DateTime::parse_from_rfc3339("2021-10-08T00:00:00Z")
+        chrono::DateTime::parse_from_rfc3339("2021-10-08T00:00:00Z")
             .unwrap()
-            .into(),
+            .date_naive(),
     )
     .unwrap();
     dbg!(&result);
