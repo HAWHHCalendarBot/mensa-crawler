@@ -13,11 +13,10 @@ mod meal;
 mod parse;
 
 fn main() {
-    let agent = ureq::AgentBuilder::new().build();
     let mut errors: usize = 0;
     loop {
         println!("time for another update");
-        if let Err(err) = once(&agent) {
+        if let Err(err) = once() {
             eprintln!("ERROR: {err}");
             errors += 1;
             assert!(errors < 3, "failed {errors} times in a row");
@@ -30,20 +29,20 @@ fn main() {
     }
 }
 
-fn once(agent: &ureq::Agent) -> anyhow::Result<()> {
+fn once() -> anyhow::Result<()> {
     const URL_THIS_WEEK: &str = "https://www.stwhh.de/speiseplan/?t=this_week";
     const URL_NEXT_WEEK: &str = "https://www.stwhh.de/speiseplan/?t=next_week";
 
     git::pull()?;
 
     println!("this week...");
-    let html = http::get_text(agent, URL_THIS_WEEK)?;
+    let html = http::get_text(URL_THIS_WEEK)?;
     let meals = parse::parse(&html);
     let this_week = meals.values().flatten().count();
     write_meals(meals)?;
 
     println!("next week...");
-    let html = http::get_text(agent, URL_NEXT_WEEK)?;
+    let html = http::get_text(URL_NEXT_WEEK)?;
     let meals = parse::parse(&html);
     let next_week = meals.values().flatten().count();
     write_meals(meals)?;
