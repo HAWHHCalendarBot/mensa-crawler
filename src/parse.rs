@@ -203,9 +203,7 @@ fn dailytip_works() {
     let result = meal(
         &html.root_element(),
         "ABCD".to_string(),
-        chrono::DateTime::parse_from_rfc3339("2021-10-08T00:00:00Z")
-            .unwrap()
-            .date_naive(),
+        chrono::NaiveDate::from_ymd_opt(2021, 10, 8).unwrap(),
     )
     .unwrap();
     dbg!(&result);
