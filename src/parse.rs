@@ -40,7 +40,7 @@ pub fn parse(html: &str) -> HashMap<Meta, Vec<Meal>> {
                 .expect("date not formatted like a NaiveDate");
 
             let meta = Meta {
-                canteen: canteen.to_string(),
+                canteen: canteen.clone(),
                 date,
             };
             let result = result.entry(meta).or_default();
@@ -49,13 +49,13 @@ pub fn parse(html: &str) -> HashMap<Meta, Vec<Meal>> {
             for category_html in categories {
                 let category = category_html
                     .select(&CATEGORY_HEADER_SELECTOR)
-                    .map(|o| o.inner_html().trim().to_string())
+                    .map(|o| o.inner_html().trim().to_owned())
                     .next()
                     .expect("a category without a title?");
 
                 let meals = category_html.select(&MEAL_SELECTOR);
                 for meal_html in meals {
-                    if let Some(meal) = meal(&meal_html, category.to_string(), date) {
+                    if let Some(meal) = meal(&meal_html, category.clone(), date) {
                         result.push(meal);
                     }
                 }
@@ -74,7 +74,7 @@ fn meal(html: &ElementRef, category: String, date: NaiveDate) -> Option<Meal> {
         .next()?
         .inner_html()
         .trim()
-        .to_string();
+        .to_owned();
     Some(Meal {
         name,
         category,
@@ -90,14 +90,14 @@ fn additives_of_meal(html: &ElementRef) -> BTreeMap<String, String> {
         Lazy::new(|| Selector::parse("span.singlemeal__info").unwrap());
     let contents = html
         .select(&SELECTOR)
-        .map(|o| o.inner_html().trim().to_string())
+        .map(|o| o.inner_html().trim().to_owned())
         .filter(|o| o.ends_with(',') && o.contains(" = "))
-        .map(|o| o[0..o.len() - 1].trim().to_string());
+        .map(|o| o[0..o.len() - 1].trim().to_owned());
     let mut result = BTreeMap::new();
     for content in contents {
         let splitted = content.split(" = ").collect::<Vec<_>>();
         if let [key, value] = splitted.as_slice() {
-            result.insert((*key).to_string(), (*value).to_string());
+            result.insert((*key).to_owned(), (*value).to_owned());
         }
     }
     result
@@ -202,7 +202,7 @@ fn dailytip_works() {
     let html = Html::parse_fragment(include_str!("../test/dailytip.html"));
     let result = meal(
         &html.root_element(),
-        "ABCD".to_string(),
+        "ABCD".to_owned(),
         chrono::NaiveDate::from_ymd_opt(2021, 10, 8).unwrap(),
     )
     .unwrap();
