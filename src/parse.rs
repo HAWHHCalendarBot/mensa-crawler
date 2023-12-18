@@ -1,7 +1,7 @@
 use std::collections::{BTreeMap, HashMap};
 
 use chrono::NaiveDate;
-use lazy_regex::{lazy_regex, Regex};
+use lazy_regex::regex;
 use once_cell::sync::Lazy;
 use scraper::{ElementRef, Html, Selector};
 
@@ -105,10 +105,8 @@ fn additives_of_meal(html: &ElementRef) -> BTreeMap<String, String> {
 
 #[allow(clippy::non_ascii_literal)]
 fn prices_of_meal(html: &ElementRef) -> Option<Prices> {
-    static PRICE: Lazy<Regex> = lazy_regex!(r"(\d+,\d\d) €");
-
     let html = html.html();
-    let mut captures = PRICE.captures_iter(&html);
+    let mut captures = regex!(r"(\d+,\d\d) €").captures_iter(&html);
     let price_student = euro_to_float(&captures.next()?[1])?;
     let price_attendant = euro_to_float(&captures.next()?[1])?;
     let price_guest = euro_to_float(&captures.next()?[1])?;
