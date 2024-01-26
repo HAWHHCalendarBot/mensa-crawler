@@ -53,6 +53,7 @@ pub struct Contents {
     pub vegetarian: bool,
 }
 
+#[allow(clippy::struct_field_names)]
 #[derive(Debug, Serialize, Deserialize, PartialEq, PartialOrd)]
 #[serde(rename_all = "PascalCase")]
 pub struct Prices {
