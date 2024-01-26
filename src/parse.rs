@@ -88,19 +88,14 @@ fn meal(html: &ElementRef, category: String, date: NaiveDate) -> Option<Meal> {
 fn additives_of_meal(html: &ElementRef) -> BTreeMap<String, String> {
     static SELECTOR: Lazy<Selector> =
         Lazy::new(|| Selector::parse("span.singlemeal__info").unwrap());
-    let contents = html
-        .select(&SELECTOR)
-        .map(|o| o.inner_html().trim().to_owned())
-        .filter(|o| o.ends_with(',') && o.contains(" = "))
-        .map(|o| o[0..o.len() - 1].trim().to_owned());
-    let mut result = BTreeMap::new();
-    for content in contents {
-        let splitted = content.split(" = ").collect::<Vec<_>>();
-        if let [key, value] = splitted.as_slice() {
-            result.insert((*key).to_owned(), (*value).to_owned());
-        }
-    }
-    result
+    html.select(&SELECTOR)
+        .map(|o| o.inner_html())
+        .filter_map(|o| {
+            o.trim_matches(|c: char| c == ',' || c.is_whitespace())
+                .split_once(" = ")
+                .map(|(key, value)| (key.to_owned(), value.to_owned()))
+        })
+        .collect::<BTreeMap<_, _>>()
 }
 
 #[allow(clippy::non_ascii_literal)]
