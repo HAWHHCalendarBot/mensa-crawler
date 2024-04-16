@@ -64,8 +64,9 @@ fn write_meals(mut meals: HashMap<Meta, Vec<Meal>>) -> anyhow::Result<()> {
         let folder = path.parent().expect("always has a folder");
         std::fs::create_dir_all(folder)?;
 
-        meals.sort_by_key(|o| o.name.clone());
-        meals.sort_by_key(|o| o.additives.len());
+        meals.sort_by_key(|meal| meal.name.clone());
+        meals.sort_by_key(|meal| meal.additives.len());
+        #[allow(clippy::min_ident_chars)]
         meals.sort_by(|a, b| a.prices.partial_cmp(&b.prices).unwrap());
 
         if meals.is_empty() {

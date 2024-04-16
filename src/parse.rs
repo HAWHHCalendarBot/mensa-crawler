@@ -49,7 +49,7 @@ pub fn parse(html: &str) -> HashMap<Meta, Vec<Meal>> {
             for category_html in categories {
                 let category = category_html
                     .select(&CATEGORY_HEADER_SELECTOR)
-                    .map(|o| o.inner_html().trim().to_owned())
+                    .map(|element| element.inner_html().trim().to_owned())
                     .next()
                     .expect("a category without a title?");
 
@@ -89,9 +89,9 @@ fn additives_of_meal(html: &ElementRef) -> BTreeMap<String, String> {
     static SELECTOR: Lazy<Selector> =
         Lazy::new(|| Selector::parse("span.singlemeal__info").unwrap());
     html.select(&SELECTOR)
-        .map(|o| o.inner_html())
-        .filter_map(|o| {
-            o.trim_matches(|c: char| c == ',' || c.is_whitespace())
+        .map(|element| element.inner_html())
+        .filter_map(|html| {
+            html.trim_matches(|char: char| char == ',' || char.is_whitespace())
                 .split_once(" = ")
                 .map(|(key, value)| (key.to_owned(), value.to_owned()))
         })
@@ -117,9 +117,9 @@ fn contents_of_meal(html: &ElementRef) -> Contents {
         Lazy::new(|| Selector::parse("span[title] img[src]").unwrap());
     let contents = html
         .select(&SELECTOR)
-        .filter_map(|o| o.value().attr("src"))
-        .filter_map(|o| o.split('/').last())
-        .filter_map(|o| o.split('.').next())
+        .filter_map(|element| element.value().attr("src"))
+        .filter_map(|src| src.split('/').last())
+        .filter_map(|filename| filename.split('.').next())
         .collect::<Vec<_>>();
     Contents {
         alcohol: contents.contains(&"alc"),

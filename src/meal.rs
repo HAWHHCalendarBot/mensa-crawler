@@ -63,42 +63,42 @@ pub struct Prices {
 }
 
 impl std::fmt::Debug for Contents {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.write_str("Contents { ")?;
+    fn fmt(&self, fmt: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        fmt.write_str("Contents { ")?;
         if self.alcohol {
-            f.write_str("Alcohol ")?;
+            fmt.write_str("Alcohol ")?;
         }
         if self.beef {
-            f.write_str("Beef ")?;
+            fmt.write_str("Beef ")?;
         }
         if self.fish {
-            f.write_str("Fish ")?;
+            fmt.write_str("Fish ")?;
         }
         if self.game {
-            f.write_str("Game ")?;
+            fmt.write_str("Game ")?;
         }
         if self.gelatine {
-            f.write_str("Gelatine ")?;
+            fmt.write_str("Gelatine ")?;
         }
         if self.lactose_free {
-            f.write_str("LactoseFree ")?;
+            fmt.write_str("LactoseFree ")?;
         }
         if self.lamb {
-            f.write_str("Lamb ")?;
+            fmt.write_str("Lamb ")?;
         }
         if self.pig {
-            f.write_str("Pig ")?;
+            fmt.write_str("Pig ")?;
         }
         if self.poultry {
-            f.write_str("Poultry ")?;
+            fmt.write_str("Poultry ")?;
         }
         if self.vegan {
-            f.write_str("Vegan ")?;
+            fmt.write_str("Vegan ")?;
         }
         if self.vegetarian {
-            f.write_str("Vegetarian ")?;
+            fmt.write_str("Vegetarian ")?;
         }
-        f.write_str("}")
+        fmt.write_str("}")
     }
 }
 
