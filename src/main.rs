@@ -1,6 +1,3 @@
-#![forbid(unsafe_code)]
-#![warn(clippy::pedantic)]
-
 use std::collections::HashMap;
 use std::thread::sleep;
 use std::time::Duration;
