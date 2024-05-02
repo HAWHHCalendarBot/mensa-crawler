@@ -2,10 +2,11 @@ use std::collections::HashMap;
 use std::thread::sleep;
 use std::time::Duration;
 
-use crate::meal::{Meal, Meta};
 use serde::Serialize;
 use serde_json::ser::PrettyFormatter;
 use serde_json::Serializer;
+
+use crate::meal::{Meal, Meta};
 
 mod git;
 mod http;
