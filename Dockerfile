@@ -5,17 +5,16 @@ RUN apt-get update \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 
-# cargo needs a dummy src/main.rs to detect bin mode
-RUN mkdir -p src && echo "fn main() {}" > src/main.rs
-
 COPY Cargo.toml Cargo.lock ./
-RUN cargo fetch --locked
-RUN cargo build --release --frozen --offline
 
-# We need to touch our real main.rs file or the cached one will be used.
+# cargo needs a dummy src/lib.rs to compile the dependencies
+RUN mkdir -p src \
+	&& touch src/lib.rs \
+	&& cargo fetch --locked \
+	&& cargo build --release --offline \
+	&& rm -rf src
+
 COPY . ./
-RUN touch src/main.rs
-
 RUN cargo build --release --frozen --offline
 
 
@@ -32,6 +31,6 @@ VOLUME /app/meals
 
 COPY gitconfig /root/.gitconfig
 COPY known_hosts /root/.ssh/known_hosts
-COPY --from=builder /build/target/release/mensa-crawler /usr/bin/
 
+COPY --from=builder /build/target/release/mensa-crawler /usr/bin/
 ENTRYPOINT ["mensa-crawler"]
