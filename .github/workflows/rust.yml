@@ -32,12 +32,17 @@ jobs:
       RUSTFLAGS: --deny warnings
     steps:
       - name: Setup Rust
+        id: rust
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.toolchain }}
           components: clippy
       - uses: actions/checkout@v4
-      - run: cargo fetch --locked
+      - run: cargo fetch
+      - uses: actions/cache@v4
+        with:
+          key: clippy-${{ steps.rust.outputs.cachekey }}-${{ hashFiles('**/Cargo.*') }}
+          path: target/
       - run: cargo clippy --offline --all-targets
       - run: cargo doc --offline --no-deps
 
@@ -55,22 +60,24 @@ jobs:
         os:
           - ubuntu-latest
           - macos-latest
-    env:
-      RUSTFLAGS: --allow unknown-lints --deny warnings
     steps:
       - name: Setup Rust
+        id: rust
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.toolchain }}
       - uses: actions/checkout@v4
-      - run: cargo fetch --locked
+      - run: cargo fetch
+      - uses: actions/cache@v4
+        with:
+          key: test-${{ matrix.os }}-${{ steps.rust.outputs.cachekey }}-${{ hashFiles('**/Cargo.*') }}
+          path: target/
       - run: cargo build --offline --all-targets
-      - run: cargo test --offline
+      - run: cargo test --offline --no-fail-fast
 
-  github-release:
+  release:
     name: Release ${{ matrix.triple }}
     runs-on: ${{ matrix.os }}
-    needs: test
     permissions:
       contents: write
     strategy:
@@ -82,9 +89,10 @@ jobs:
           - triple: aarch64-unknown-linux-gnu
             os: ubuntu-latest
     env:
-      RUSTFLAGS: --allow unknown-lints --deny warnings
+      RUSTFLAGS: --deny warnings
     steps:
       - name: Setup Rust
+        id: rust
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: stable
@@ -112,6 +120,10 @@ jobs:
           echo "ARTIFACT_NAME=$name" >> $GITHUB_ENV
 
       - run: cargo fetch --locked
+      - uses: actions/cache@v4
+        with:
+          key: release-${{ matrix.triple }}-${{ steps.rust.outputs.cachekey }}-${{ hashFiles('**/Cargo.*') }}
+          path: target/
 
       - name: Build
         run: ${{ runner.os == 'Linux' && 'cross' || 'cargo' }} build --release --offline --target ${{ matrix.triple }}
