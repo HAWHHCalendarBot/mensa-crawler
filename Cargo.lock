@@ -387,7 +387,6 @@ dependencies = [
  "chrono",
  "float_eq",
  "lazy-regex",
- "once_cell",
  "scraper",
  "serde",
  "serde_json",

@@ -1,23 +1,25 @@
 use std::collections::{BTreeMap, HashMap};
+use std::sync::LazyLock;
 
 use chrono::NaiveDate;
 use lazy_regex::regex;
-use once_cell::sync::Lazy;
 use scraper::{ElementRef, Html, Selector};
 
 use crate::meal::{Contents, Meal, Meta, Prices};
 
 pub fn parse(html: &str) -> HashMap<Meta, Vec<Meal>> {
-    static LOCATION_SELECTOR: Lazy<Selector> =
-        Lazy::new(|| Selector::parse("div[data-location-id]").unwrap());
-    static TITLE_SELECTOR: Lazy<Selector> =
-        Lazy::new(|| Selector::parse(".mensainfo__title").unwrap());
-    static DATE_SELECTOR: Lazy<Selector> =
-        Lazy::new(|| Selector::parse("div[data-timestamp]").unwrap());
-    static CATEGORY_SELECTOR: Lazy<Selector> =
-        Lazy::new(|| Selector::parse(".menulist__categorywrapper").unwrap());
-    static CATEGORY_HEADER_SELECTOR: Lazy<Selector> = Lazy::new(|| Selector::parse("h5").unwrap());
-    static MEAL_SELECTOR: Lazy<Selector> = Lazy::new(|| Selector::parse(".singlemeal").unwrap());
+    static LOCATION_SELECTOR: LazyLock<Selector> =
+        LazyLock::new(|| Selector::parse("div[data-location-id]").unwrap());
+    static TITLE_SELECTOR: LazyLock<Selector> =
+        LazyLock::new(|| Selector::parse(".mensainfo__title").unwrap());
+    static DATE_SELECTOR: LazyLock<Selector> =
+        LazyLock::new(|| Selector::parse("div[data-timestamp]").unwrap());
+    static CATEGORY_SELECTOR: LazyLock<Selector> =
+        LazyLock::new(|| Selector::parse(".menulist__categorywrapper").unwrap());
+    static CATEGORY_HEADER_SELECTOR: LazyLock<Selector> =
+        LazyLock::new(|| Selector::parse("h5").unwrap());
+    static MEAL_SELECTOR: LazyLock<Selector> =
+        LazyLock::new(|| Selector::parse(".singlemeal").unwrap());
     let mut result: HashMap<Meta, Vec<Meal>> = HashMap::new();
 
     let html = Html::parse_document(html);
@@ -67,8 +69,8 @@ pub fn parse(html: &str) -> HashMap<Meta, Vec<Meal>> {
 }
 
 fn meal(html: &ElementRef, category: String, date: NaiveDate) -> Option<Meal> {
-    static SELECTOR: Lazy<Selector> =
-        Lazy::new(|| Selector::parse(".singlemeal__headline").unwrap());
+    static SELECTOR: LazyLock<Selector> =
+        LazyLock::new(|| Selector::parse(".singlemeal__headline").unwrap());
     let name = html
         .select(&SELECTOR)
         .next()?
@@ -86,8 +88,8 @@ fn meal(html: &ElementRef, category: String, date: NaiveDate) -> Option<Meal> {
 }
 
 fn additives_of_meal(html: &ElementRef) -> BTreeMap<String, String> {
-    static SELECTOR: Lazy<Selector> =
-        Lazy::new(|| Selector::parse("span.singlemeal__info").unwrap());
+    static SELECTOR: LazyLock<Selector> =
+        LazyLock::new(|| Selector::parse("span.singlemeal__info").unwrap());
     html.select(&SELECTOR)
         .map(|element| element.inner_html())
         .filter_map(|html| {
@@ -113,8 +115,8 @@ fn prices_of_meal(html: &ElementRef) -> Option<Prices> {
 }
 
 fn contents_of_meal(html: &ElementRef) -> Contents {
-    static SELECTOR: Lazy<Selector> =
-        Lazy::new(|| Selector::parse("span[title] img[src]").unwrap());
+    static SELECTOR: LazyLock<Selector> =
+        LazyLock::new(|| Selector::parse("span[title] img[src]").unwrap());
     let contents = html
         .select(&SELECTOR)
         .filter_map(|element| element.value().attr("src"))
