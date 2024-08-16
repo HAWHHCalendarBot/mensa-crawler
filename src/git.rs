@@ -1,22 +1,20 @@
 use std::path::Path;
 use std::process::Command;
 
-use anyhow::anyhow;
+use anyhow::{anyhow, Context};
 
 fn command(args: &[&str]) -> anyhow::Result<()> {
     let status = Command::new("git")
         .args(args)
         .current_dir("meals")
         .status()
-        .map_err(|err| anyhow!("failed to push repo {err}"))?;
+        .context("failed git command")?;
 
     if status.success() {
         Ok(())
     } else {
         Err(anyhow!(
-            "failed git command. Status code {}. git {:?}",
-            status,
-            args
+            "failed git command. Status code {status}. git {args:?}"
         ))
     }
 }
@@ -32,7 +30,7 @@ pub fn pull() -> anyhow::Result<()> {
             .arg("git@github.com:HAWHHCalendarBot/mensa-data.git")
             .arg("meals")
             .status()
-            .map_err(|err| anyhow!("failed to clone repo {err}"))?;
+            .context("failed to clone repo")?;
 
         if status.success() {
             Ok(())

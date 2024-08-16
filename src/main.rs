@@ -18,7 +18,7 @@ fn main() {
     loop {
         println!("time for another update");
         if let Err(err) = once() {
-            eprintln!("ERROR: {err}");
+            eprintln!("ERROR: {err:#}");
             errors += 1;
             assert!(errors < 3, "failed {errors} times in a row");
         } else {
