@@ -9,6 +9,7 @@ edition = "2021"
 
 [lints.rust]
 unsafe_code = "forbid"
+unused_qualifications = "warn"
 [lints.clippy]
 pedantic = "warn"
 nursery = "warn"

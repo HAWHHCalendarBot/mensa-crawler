@@ -198,7 +198,7 @@ fn dailytip_works() {
     let result = meal(
         &html.root_element(),
         "ABCD".to_owned(),
-        chrono::NaiveDate::from_ymd_opt(2021, 10, 8).unwrap(),
+        NaiveDate::from_ymd_opt(2021, 10, 8).unwrap(),
     )
     .unwrap();
     dbg!(&result);

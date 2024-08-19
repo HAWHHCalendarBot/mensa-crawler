@@ -114,7 +114,7 @@ impl Meta {
 fn meta_path_works() {
     let meta = Meta {
         canteen: "Cafe-Shop ABC".to_owned(),
-        date: chrono::NaiveDate::from_ymd_opt(2021, 8, 1).unwrap(),
+        date: NaiveDate::from_ymd_opt(2021, 8, 1).unwrap(),
     };
     let path = meta.get_path();
     let path = path.to_str().unwrap();
