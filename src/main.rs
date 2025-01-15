@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::thread::sleep;
 use std::time::Duration;
 
-use serde::Serialize;
+use serde::Serialize as _;
 use serde_json::ser::PrettyFormatter;
 use serde_json::Serializer;
 

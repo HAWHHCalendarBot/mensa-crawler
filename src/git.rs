@@ -1,7 +1,7 @@
 use std::path::Path;
 use std::process::Command;
 
-use anyhow::{anyhow, Context};
+use anyhow::{anyhow, Context as _};
 
 fn command(args: &[&str]) -> anyhow::Result<()> {
     let status = Command::new("git")
