@@ -120,7 +120,7 @@ fn contents_of_meal(html: &ElementRef) -> Contents {
     let contents = html
         .select(&SELECTOR)
         .filter_map(|element| element.value().attr("src"))
-        .filter_map(|src| src.split('/').last())
+        .filter_map(|src| src.split('/').next_back())
         .filter_map(|filename| filename.split('.').next())
         .collect::<Vec<_>>();
     Contents {
