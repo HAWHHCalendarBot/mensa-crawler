@@ -1,4 +1,4 @@
-FROM docker.io/library/rust:1-bookworm as builder
+FROM docker.io/library/rust:1-bookworm AS builder
 WORKDIR /build
 RUN apt-get update \
 	&& apt-get upgrade -y \
@@ -19,7 +19,7 @@ RUN cargo build --release --frozen --offline
 
 
 # Start building the final image
-FROM docker.io/library/debian:bookworm-slim
+FROM docker.io/library/debian:bookworm-slim AS final
 RUN apt-get update \
 	&& apt-get upgrade -y \
 	&& apt-get install -y git \
@@ -32,5 +32,5 @@ VOLUME /app/meals
 COPY gitconfig /root/.gitconfig
 COPY known_hosts /root/.ssh/known_hosts
 
-COPY --from=builder /build/target/release/mensa-crawler /usr/bin/
+COPY --from=builder /build/target/release/mensa-crawler /usr/local/bin/
 ENTRYPOINT ["mensa-crawler"]
