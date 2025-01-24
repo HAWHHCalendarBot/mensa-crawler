@@ -20,7 +20,7 @@ lto = true
 
 [dependencies]
 anyhow = "1"
-chrono = { version = "0.4", default-features = false, features = ["clock", "serde"] }
+chrono = { version = "0.4", default-features = false, features = ["std", "serde"] }
 lazy-regex = "3"
 scraper = "0.19"
 serde = { version = "1", features = ["derive"] }
