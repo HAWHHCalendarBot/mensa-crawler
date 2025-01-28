@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use std::thread::sleep;
 use std::time::Duration;
 
+use anyhow::Context as _;
 use serde::Serialize as _;
 use serde_json::ser::PrettyFormatter;
 use serde_json::Serializer;
@@ -37,13 +38,13 @@ fn once() -> anyhow::Result<()> {
     git::pull()?;
 
     println!("this week...");
-    let html = http::get_text(URL_THIS_WEEK)?;
+    let html = http::get_text(URL_THIS_WEEK).context("GET this week")?;
     let meals = parse::parse(&html);
     let this_week = meals.values().flatten().count();
     write_meals(meals)?;
 
     println!("next week...");
-    let html = http::get_text(URL_NEXT_WEEK)?;
+    let html = http::get_text(URL_NEXT_WEEK).context("GET next week")?;
     let meals = parse::parse(&html);
     let next_week = meals.values().flatten().count();
     write_meals(meals)?;
