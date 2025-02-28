@@ -162,7 +162,10 @@ fn additives_work() {
     let html = Html::parse_fragment(include_str!("../test/singlemeal.html"));
     let additives = additives_of_meal(&html.root_element());
     assert_eq!(3, additives.len());
-    assert_eq!(additives["Gl"], "glutenhaltiges Getreide und daraus hergestellte Erzeugnisse (z. B. Weizen, Roggen, Gerste etc.)");
+    assert_eq!(
+        additives["Gl"],
+        "glutenhaltiges Getreide und daraus hergestellte Erzeugnisse (z. B. Weizen, Roggen, Gerste etc.)"
+    );
     assert_eq!(additives["Ei"], "Ei und Eierzeugnisse");
     assert_eq!(
         additives["La"],
