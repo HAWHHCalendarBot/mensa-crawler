@@ -40,11 +40,6 @@ pub fn pull() -> anyhow::Result<()> {
     }
 }
 
-#[expect(dead_code)]
-fn push() -> anyhow::Result<()> {
-    command(&["push"])
-}
-
 fn commit() -> anyhow::Result<()> {
     command(&[
         "commit",
@@ -67,7 +62,7 @@ pub fn commit_and_push() -> anyhow::Result<()> {
     drop(commit());
 
     #[cfg(not(debug_assertions))]
-    push()?;
+    command(&["push"])?;
 
     Ok(())
 }
