@@ -4,8 +4,8 @@ use std::time::Duration;
 
 use anyhow::Context as _;
 use serde::Serialize as _;
-use serde_json::ser::PrettyFormatter;
 use serde_json::Serializer;
+use serde_json::ser::PrettyFormatter;
 
 use crate::meal::{Meal, Meta};
 
@@ -65,7 +65,7 @@ fn write_meals(mut meals: HashMap<Meta, Vec<Meal>>) -> anyhow::Result<()> {
 
         meals.sort_by_key(|meal| meal.name.clone());
         meals.sort_by_key(|meal| meal.additives.len());
-        #[allow(clippy::min_ident_chars)]
+        #[expect(clippy::min_ident_chars)]
         meals.sort_by(|a, b| a.prices.partial_cmp(&b.prices).unwrap());
 
         if meals.is_empty() {

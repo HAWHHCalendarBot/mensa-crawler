@@ -1,5 +1,5 @@
-use ureq::http::header::{FROM, USER_AGENT};
 use ureq::http::HeaderValue;
+use ureq::http::header::{FROM, USER_AGENT};
 
 const FROM_VALUE: &str = "calendarbot-mensa-crawler@hawhh.de";
 const USER_AGENT_VALUE: &str = concat!(

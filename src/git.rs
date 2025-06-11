@@ -1,7 +1,7 @@
 use std::path::Path;
 use std::process::Command;
 
-use anyhow::{anyhow, Context as _};
+use anyhow::{Context as _, anyhow};
 
 fn command(args: &[&str]) -> anyhow::Result<()> {
     let status = Command::new("git")
@@ -40,7 +40,7 @@ pub fn pull() -> anyhow::Result<()> {
     }
 }
 
-#[allow(dead_code)]
+#[expect(dead_code)]
 fn push() -> anyhow::Result<()> {
     command(&["push"])
 }

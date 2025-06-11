@@ -25,7 +25,7 @@ pub struct Meal {
     pub contents: Contents,
 }
 
-#[allow(clippy::struct_excessive_bools)]
+#[expect(clippy::struct_excessive_bools)]
 #[derive(Default, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "PascalCase")]
 pub struct Contents {
@@ -53,7 +53,7 @@ pub struct Contents {
     pub vegetarian: bool,
 }
 
-#[allow(clippy::struct_field_names)]
+#[expect(clippy::struct_field_names)]
 #[derive(Debug, Serialize, Deserialize, PartialEq, PartialOrd)]
 #[serde(rename_all = "PascalCase")]
 pub struct Prices {

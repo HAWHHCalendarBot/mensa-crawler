@@ -100,7 +100,6 @@ fn additives_of_meal(html: &ElementRef) -> BTreeMap<String, String> {
         .collect::<BTreeMap<_, _>>()
 }
 
-#[allow(clippy::non_ascii_literal)]
 fn prices_of_meal(html: &ElementRef) -> Option<Prices> {
     let html = html.html();
     let mut captures = regex!(r"(\d+,\d\d) €").captures_iter(&html);
