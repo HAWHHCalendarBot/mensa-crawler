@@ -27,7 +27,7 @@ fn main() {
         }
 
         println!("now sleep 70 minutes...\n\n");
-        sleep(Duration::from_secs(60 * 70));
+        sleep(Duration::from_mins(70));
     }
 }
 
