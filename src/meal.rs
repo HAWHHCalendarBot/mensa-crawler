@@ -2,7 +2,6 @@ use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 
 use chrono::NaiveDate;
-use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Hash, PartialEq, Eq)]
 pub struct Meta {
@@ -10,7 +9,7 @@ pub struct Meta {
     pub date: NaiveDate,
 }
 
-#[derive(Debug, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, PartialEq, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "PascalCase")]
 pub struct Meal {
     pub name: String,
@@ -26,7 +25,7 @@ pub struct Meal {
 }
 
 #[expect(clippy::struct_excessive_bools)]
-#[derive(Default, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Default, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "PascalCase")]
 pub struct Contents {
     #[serde(default, skip_serializing_if = "std::ops::Not::not")]
@@ -54,7 +53,7 @@ pub struct Contents {
 }
 
 #[expect(clippy::struct_field_names)]
-#[derive(Debug, Serialize, Deserialize, PartialEq, PartialOrd)]
+#[derive(Debug, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "PascalCase")]
 pub struct Prices {
     pub price_attendant: f32,
