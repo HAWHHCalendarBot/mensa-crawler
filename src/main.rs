@@ -58,6 +58,7 @@ fn once() -> anyhow::Result<()> {
 }
 
 fn write_meals(mut meals: HashMap<Meta, Vec<Meal>>) -> anyhow::Result<()> {
+    #[expect(clippy::iter_over_hash_type)]
     for (meta, meals) in &mut meals {
         let path = meta.get_path();
         let folder = path.parent().expect("always has a folder");
